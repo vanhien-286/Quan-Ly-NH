@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* Giữ lại các class CSS đặc biệt của bạn bên dưới */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.glass-panel {
+    background: rgba(252, 249, 248, 0.8);
+    backdrop-filter: blur(12px);
+}
+.signature-gradient {
+    background: linear-gradient(135deg, #000000 0%, #1c1b1b 100%);
+}
