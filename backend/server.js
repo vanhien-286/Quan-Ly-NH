@@ -5,7 +5,11 @@ const { connectDB } = require("./config/db"); // 1. Import hàm kết nối DB
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // Cho phép đúng địa chỉ Frontend của Hiển
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
 // 2. Gọi hàm kết nối database

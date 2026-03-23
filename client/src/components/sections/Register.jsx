@@ -1,8 +1,8 @@
-import React, { useState } from 'react'; // SỬA LỖI 1: Thêm useState vào đây
+import React, { useState } from 'react'; 
 import axios from 'axios';
 
 export default function Register({ isOpen, onClose, onSwitchToLogin }) {
-  // 1. Tạo State để lưu trữ dữ liệu nhập vào
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -11,7 +11,6 @@ export default function Register({ isOpen, onClose, onSwitchToLogin }) {
 
   if (!isOpen) return null;
 
-  // 2. Hàm xử lý khi nhấn "Request Membership"
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

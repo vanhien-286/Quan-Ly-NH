@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "framer-motion": "^12.38.0",
+    "react-scroll": "^1.9.3"
+  }
+}
