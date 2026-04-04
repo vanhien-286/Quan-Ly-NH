@@ -1,4 +1,5 @@
-import { useState } from "react"; // SỬA LỖI: Thêm useState vào đây
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Hero from "./components/sections/Hero";
 import Dishes from "./components/sections/Dishes";
@@ -8,6 +9,8 @@ import Contact from "./components/sections/Contact";
 import Footer from "./components/layout/Footer";
 import Login from "./components/sections/Login";
 import Register from "./components/sections/Register";
+import Reservation from "./components/sections/Reservation";
+import MyReservations from "./components/sections/MyReservations";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -26,6 +29,19 @@ function App() {
     alert("Bạn đã đăng xuất!");
   };
 
+  const HomePage = () => (
+    <>
+      <main>
+        <Hero />
+        <div id="dishes"><Dishes /></div>
+        <div id="drinks"><Drinks /></div>
+        <div id="desserts"><Desserts /></div>
+        <div id="contact"><Contact /></div>
+      </main>
+      <Footer />
+    </>
+  );
+
   return (
     <>
       <Navbar
@@ -41,15 +57,11 @@ function App() {
         }}
       />
 
-      <main>
-        <Hero />
-        <div id="dishes"><Dishes /></div>
-        <div id="drinks"><Drinks /></div>
-        <div id="desserts"><Desserts /></div>
-        <div id="contact"><Contact /></div>
-      </main>
-
-      <Footer />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/reservation" element={<Reservation />} />
+        <Route path="/my-reservations" element={<MyReservations />} />
+      </Routes>
 
       <Login
         isOpen={showLogin}
@@ -72,4 +84,4 @@ function App() {
   );
 }
 
-export default App; // Đảm bảo dòng này luôn ở cuối file
+export default App;

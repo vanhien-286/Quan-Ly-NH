@@ -1,5 +1,9 @@
 import { Link } from 'react-scroll';
+import { useNavigate } from 'react-router-dom';
+
 export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }) {
+  const navigate = useNavigate();
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'dishes', label: 'Dishes' },
@@ -13,7 +17,10 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
 
         
         <div className="flex items-center gap-12">
-          <span className="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-['Noto_Serif']">
+          <span 
+            className="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-['Noto_Serif'] cursor-pointer"
+            onClick={() => navigate('/')}
+          >
             Culinary Atelier
           </span>
           <div className="hidden md:flex gap-8 text-base font-medium text-zinc-600 tracking-tight dark:text-zinc-400 font-['Noto_Serif']">
@@ -35,8 +42,22 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
         </div>
         {/* kiểm tra*/}
         <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/reservation')}
+            className="rounded-sm bg-amber-600 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-amber-700 active:scale-95"
+            type="button"
+          >
+            Đặt Bàn
+          </button>
           {user ? (
             <>
+              <button
+                onClick={() => navigate('/my-reservations')}
+                className="rounded-sm bg-blue-600 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-blue-700 active:scale-95"
+                type="button"
+              >
+                Lịch Sử
+              </button>
               <span className="text-zinc-800 dark:text-zinc-200 font-medium font-['Noto_Serif']">
                 Hello, <span className="text-amber-600">{user.fullName || 'Chef'}</span>
               </span>

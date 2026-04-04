@@ -1,9 +1,9 @@
-const { sql } = require("../config/db");
+const { pool } = require("../config/db");
+const sql = require("mssql");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 exports.register = async ({ fullName, email, password }) => {
-    const pool = await sql.connect();
     
     // Kiểm tra email tồn tại
     const userExist = await pool.request()
@@ -29,7 +29,6 @@ exports.register = async ({ fullName, email, password }) => {
 };
 
 exports.login = async ({ email, password }) => {
-    const pool = await sql.connect();
     const result = await pool.request()
         .input("email", sql.VarChar, email)
         .query("SELECT * FROM Users WHERE Email = @email");
