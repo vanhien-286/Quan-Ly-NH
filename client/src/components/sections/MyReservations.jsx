@@ -55,7 +55,7 @@ const MyReservations = () => {
   const getStatusBadge = (status) => {
     const statusClass = {
       'Pending': 'bg-yellow-500',
-      'Confirmed': 'bg-green-500',
+      'Confirmed': 'bg-emerald-600',
       'Cancelled': 'bg-red-500'
     };
 
@@ -66,7 +66,7 @@ const MyReservations = () => {
     };
 
     return (
-      <span className={`${statusClass[status] || 'bg-gray-500'} text-white px-3 py-1 rounded-full text-sm font-semibold`}>
+      <span className={`${statusClass[status] || 'bg-emerald-600'} text-white px-3 py-1 rounded-full text-sm font-semibold`}>
         {statusLabel[status] || status}
       </span>
     );
@@ -74,19 +74,19 @@ const MyReservations = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-12 px-4">
+      <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-emerald-900 py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-white text-xl">Đang tải...</p>
+          <p className="text-emerald-950 dark:text-emerald-50 text-xl">Đang tải...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-12 px-4">
+    <section className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-emerald-900 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-white text-center mb-2">Các Lần Đặt Bàn Của Tôi</h1>
-        <p className="text-gray-400 text-center mb-8">Quản lý các lần đặt bàn của bạn</p>
+        <h1 className="text-4xl font-bold text-emerald-950 dark:text-emerald-50 text-center mb-2">Các Lần Đặt Bàn Của Tôi</h1>
+        <p className="text-emerald-600 dark:text-emerald-300 text-center mb-8">Quản lý các lần đặt bàn của bạn</p>
 
         {error && (
           <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
@@ -95,20 +95,20 @@ const MyReservations = () => {
         )}
 
         {reservations.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg shadow-xl p-8 text-center">
-            <p className="text-gray-400 text-lg">Bạn chưa có lần đặt bàn nào</p>
-            <a href="/reservation" className="text-orange-500 hover:text-orange-600 font-semibold mt-4">
+          <div className="bg-white dark:bg-emerald-900 rounded-lg shadow-xl p-8 text-center border border-emerald-200 dark:border-emerald-800">
+            <p className="text-emerald-600 dark:text-emerald-300 text-lg">Bạn chưa có lần đặt bàn nào</p>
+            <a href="/reservation" className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-semibold mt-4">
               → Đặt bàn ngay
             </a>
           </div>
         ) : (
           <div className="space-y-4">
             {reservations.map(reservation => (
-              <div key={reservation.ReservationID} className="bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition">
+              <div key={reservation.ReservationID} className="bg-white dark:bg-emerald-900 rounded-lg shadow-lg p-6 hover:shadow-xl transition border border-emerald-200 dark:border-emerald-800">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
-                    <p className="text-gray-400 text-sm">Tên khách</p>
-                    <p className="text-white text-lg font-semibold">{reservation.FullName}</p>
+                    <p className="text-emerald-600 dark:text-emerald-300 text-sm">Tên khách</p>
+                    <p className="text-emerald-950 dark:text-emerald-50 text-lg font-semibold">{reservation.FullName}</p>
                   </div>
                   <div className="text-right">
                     {getStatusBadge(reservation.Status)}
@@ -117,36 +117,36 @@ const MyReservations = () => {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
                   <div>
-                    <p className="text-gray-400">Ngày</p>
-                    <p className="text-white font-semibold">{new Date(reservation.ReservationDate).toLocaleDateString('vi-VN')}</p>
+                    <p className="text-emerald-600 dark:text-emerald-300">Ngày</p>
+                    <p className="text-emerald-950 dark:text-emerald-50 font-semibold">{new Date(reservation.ReservationDate).toLocaleDateString('vi-VN')}</p>
                   </div>
                   <div>
-                    <p className="text-gray-400">Giờ</p>
-                    <p className="text-white font-semibold">{reservation.ReservationTime}</p>
+                    <p className="text-emerald-600 dark:text-emerald-300">Giờ</p>
+                    <p className="text-emerald-950 dark:text-emerald-50 font-semibold">{reservation.ReservationTime}</p>
                   </div>
                   <div>
-                    <p className="text-gray-400">Số khách</p>
-                    <p className="text-white font-semibold">{reservation.NumberOfGuests} người</p>
+                    <p className="text-emerald-600 dark:text-emerald-300">Số khách</p>
+                    <p className="text-emerald-950 dark:text-emerald-50 font-semibold">{reservation.NumberOfGuests} người</p>
                   </div>
                   <div>
-                    <p className="text-gray-400">Bàn số</p>
-                    <p className="text-white font-semibold">Bàn {reservation.TableNumber || 'N/A'}</p>
+                    <p className="text-emerald-600 dark:text-emerald-300">Bàn số</p>
+                    <p className="text-emerald-950 dark:text-emerald-50 font-semibold">Bàn {reservation.TableNumber || 'N/A'}</p>
                   </div>
                 </div>
 
                 {reservation.SpecialRequests && (
                   <div className="mb-4">
-                    <p className="text-gray-400 text-sm">Ghi chú</p>
-                    <p className="text-gray-300">{reservation.SpecialRequests}</p>
+                    <p className="text-emerald-600 dark:text-emerald-300 text-sm">Ghi chú</p>
+                    <p className="text-emerald-800 dark:text-emerald-200">{reservation.SpecialRequests}</p>
                   </div>
                 )}
 
                 <div className="flex gap-2 text-xs">
-                  <p className="text-gray-400">
-                    Email: <span className="text-gray-300">{reservation.Email}</span>
+                  <p className="text-emerald-600 dark:text-emerald-300">
+                    Email: <span className="text-emerald-800 dark:text-emerald-200">{reservation.Email}</span>
                   </p>
-                  <p className="text-gray-400">
-                    SĐT: <span className="text-gray-300">{reservation.Phone}</span>
+                  <p className="text-emerald-600 dark:text-emerald-300">
+                    SĐT: <span className="text-emerald-800 dark:text-emerald-200">{reservation.Phone}</span>
                   </p>
                 </div>
 

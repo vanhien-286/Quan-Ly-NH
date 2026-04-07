@@ -106,9 +106,9 @@ const Reservation = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-12 px-4">
+    <section className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-emerald-900 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-8 relative">
+        <div className="bg-white dark:bg-emerald-900 rounded-lg shadow-xl p-8 relative border border-emerald-200 dark:border-emerald-800">
           {/* Nút đóng */}
           <button
             onClick={() => navigate('/')}
@@ -118,8 +118,8 @@ const Reservation = () => {
             ✕
           </button>
 
-          <h1 className="text-4xl font-bold text-white text-center mb-2">Đặt Bàn Online</h1>
-          <p className="text-gray-400 text-center mb-8">Chọn thời gian yêu thích của bạn</p>
+          <h1 className="text-4xl font-bold text-emerald-950 dark:text-emerald-50 text-center mb-2">Đặt Bàn Online</h1>
+          <p className="text-emerald-600 dark:text-emerald-300 text-center mb-8">Chọn thời gian yêu thích của bạn</p>
 
           {successMessage && (
             <div className="bg-green-500 text-white p-4 rounded-lg mb-6">
@@ -137,26 +137,26 @@ const Reservation = () => {
             {/* Hàng 1: Họ tên & Email */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">Họ tên</label>
+                <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Họ tên</label>
                 <input
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
                   placeholder="Nhập họ tên"
-                  className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
                 />
               </div>
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">Email</label>
+                <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Email</label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Nhập email"
-                  className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
                 />
               </div>
@@ -165,19 +165,19 @@ const Reservation = () => {
             {/* Hàng 2: Số điện thoại & Số khách */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">Số điện thoại</label>
+                <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Số điện thoại</label>
                 <input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="Nhập số điện thoại"
-                  className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
                 />
               </div>
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">Số khách</label>
+                <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Số khách</label>
                 <input
                   type="number"
                   name="numberOfGuests"
@@ -185,7 +185,7 @@ const Reservation = () => {
                   onChange={handleInputChange}
                   min="1"
                   max="20"
-                  className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
                 />
               </div>
@@ -194,24 +194,24 @@ const Reservation = () => {
             {/* Hàng 3: Ngày & Giờ */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">Ngày đặt bàn</label>
+                <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Ngày đặt bàn</label>
                 <input
                   type="date"
                   name="reservationDate"
                   value={formData.reservationDate}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
                 />
               </div>
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">Giờ đặt bàn</label>
+                <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Giờ đặt bàn</label>
                 <input
                   type="time"
                   name="reservationTime"
                   value={formData.reservationTime}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
                 />
               </div>
@@ -222,7 +222,7 @@ const Reservation = () => {
               type="button"
               onClick={fetchAvailableTables}
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 disabled:opacity-50"
+              className="w-full bg-emerald-600 dark:bg-emerald-700 hover:bg-emerald-700 dark:hover:bg-emerald-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 disabled:opacity-50"
             >
               {loading ? 'Đang tìm kiếm...' : 'Tìm bàn trống'}
             </button>
@@ -230,7 +230,7 @@ const Reservation = () => {
             {/* Hiển thị danh sách bàn có sẵn */}
             {availableTables.length > 0 && (
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">Chọn bàn (Tùy chọn)</label>
+                <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Chọn bàn (Tùy chọn)</label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {availableTables.map(table => (
                     <button
@@ -239,8 +239,8 @@ const Reservation = () => {
                       onClick={() => setFormData(prev => ({ ...prev, tableId: table.TableID }))}
                       className={`p-3 rounded-lg font-semibold transition ${
                         formData.tableId === table.TableID
-                          ? 'bg-orange-500 text-white'
-                          : 'bg-gray-700 text-white hover:bg-gray-600'
+                          ? 'bg-emerald-700 dark:bg-emerald-600 text-white'
+                          : 'bg-emerald-100 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 hover:bg-emerald-200 dark:hover:bg-emerald-700'
                       }`}
                     >
                       Bàn {table.TableNumber}
@@ -254,14 +254,14 @@ const Reservation = () => {
 
             {/* Ghi chú đặc biệt */}
             <div>
-              <label className="block text-white text-sm font-semibold mb-2">Ghi chú (Tùy chọn)</label>
+              <label className="block text-emerald-950 dark:text-emerald-50 text-sm font-semibold mb-2">Ghi chú (Tùy chọn)</label>
               <textarea
                 name="specialRequests"
                 value={formData.specialRequests}
                 onChange={handleInputChange}
                 placeholder="Ví dụ: Cần bàn yên tĩnh, sinh nhật..."
                 rows="4"
-                className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
               />
             </div>
 
@@ -269,13 +269,13 @@ const Reservation = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-4 px-4 rounded-lg transition duration-300 text-lg disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-emerald-700 to-emerald-600 hover:from-emerald-800 hover:to-emerald-700 text-white font-semibold py-4 px-4 rounded-lg transition duration-300 text-lg disabled:opacity-50"
             >
               {loading ? 'Đang xử lý...' : 'Xác nhận đặt bàn'}
             </button>
           </form>
 
-          <p className="text-gray-400 text-center mt-6 text-sm">
+          <p className="text-emerald-600 dark:text-emerald-300 text-center mt-6 text-sm">
             Chúng tôi sẽ xác nhận đơn đặt bàn của bạn trong vòng 2 giờ qua email
           </p>
         </div>

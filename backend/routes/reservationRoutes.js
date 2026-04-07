@@ -8,11 +8,11 @@ router.get("/available-tables", reservationController.getAvailableTables);
 router.post("/create", reservationController.createReservation);
 
 // Protected routes (cần đăng nhập)
-router.get("/my-reservations", authMiddleware.verifyToken, reservationController.getUserReservations);
-router.delete("/cancel/:reservationId", authMiddleware.verifyToken, reservationController.cancelReservation);
+router.get("/my-reservations", authMiddleware, reservationController.getUserReservations);
+router.delete("/cancel/:reservationId", authMiddleware, reservationController.cancelReservation);
 
 // Admin routes
-router.get("/all", authMiddleware.verifyToken, reservationController.getAllReservations);
-router.put("/update-status/:reservationId", authMiddleware.verifyToken, reservationController.updateReservationStatus);
+router.get("/all", authMiddleware, reservationController.getAllReservations);
+router.put("/update-status/:reservationId", authMiddleware, reservationController.updateReservationStatus);
 
 module.exports = router;

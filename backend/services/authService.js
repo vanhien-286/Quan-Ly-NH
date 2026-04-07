@@ -43,5 +43,13 @@ exports.login = async ({ email, password }) => {
     // Tạo Token
     const token = jwt.sign({ id: user.Id }, "SECRET_KEY", { expiresIn: "1h" });
 
-    return { token, user: { id: user.Id, fullName: user.FullName, email: user.Email } };
+    return { 
+      token, 
+      user: { 
+        id: user.Id, 
+        fullName: user.FullName, 
+        email: user.Email,
+        role: user.Role || 'user'
+      } 
+    };
 };

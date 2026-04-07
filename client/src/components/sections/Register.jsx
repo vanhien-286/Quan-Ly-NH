@@ -44,8 +44,8 @@ export default function Register({ isOpen, onClose, onSwitchToLogin }) {
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 via-transparent to-transparent"></div>
           <div className="absolute bottom-8 left-8 md:bottom-16 md:left-16 max-w-xs text-white">
-            <p className="font-label text-amber-500 text-[10px] uppercase tracking-[0.3em] mb-4 font-semibold">Established Excellence</p>
-            <h2 className="font-headline text-3xl md:text-4xl font-light leading-tight">Where every plate tells a story.</h2>
+            <p className="font-label text-amber-500 text-[10px] uppercase tracking-[0.3em] mb-4 font-semibold">Thành Lập Xuất Sắc</p>
+            <h2 className="font-headline text-3xl md:text-4xl font-light leading-tight">Nơi mỗi dĩa ăn kể một câu chuyện.</h2>
           </div>
         </section>
 
@@ -53,9 +53,9 @@ export default function Register({ isOpen, onClose, onSwitchToLogin }) {
         <section className="w-full md:w-7/12 lg:w-1/2 flex items-center justify-center p-8 md:p-16 lg:p-24 bg-surface">
           <div className="w-full max-w-md">
             <header className="mb-12 text-left">
-              <h1 className="font-headline text-4xl md:text-5xl mb-4 text-on-surface">Join the Atelier</h1>
+              <h1 className="font-headline text-4xl md:text-5xl mb-4 text-on-surface">Tham Gia Atelier</h1>
               <p className="text-zinc-500 font-body text-sm leading-relaxed">
-                Secure your place in our private culinary circle for exclusive access to seasonal menus and private events.
+                Đặt chỗ của bạn trong vòng tròn ẩm thực riêng tư của chúng tôi để có quyền truy cập độc quyền vào thực đơn theo mùa và sự kiện riêng tư.
               </p>
             </header>
 
@@ -64,10 +64,10 @@ export default function Register({ isOpen, onClose, onSwitchToLogin }) {
               
               {/* Full Name */}
               <div className="group flex flex-col space-y-2 border-b border-zinc-200 focus-within:border-amber-600 transition-colors pb-1">
-                <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600">Full Name</label>
+                <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600">Tên Đầy Đủ</label>
                 <input 
                   className="bg-transparent border-none p-0 focus:ring-0 text-on-surface font-headline italic text-lg placeholder:text-zinc-300 outline-none" 
-                  placeholder="Julianne Vane" required type="text"
+                  placeholder="Tên Của Bạn" required type="text"
                   // SỬA LỖI 3: Gắn setFormData để cập nhật dữ liệu
                   onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                 />
@@ -75,7 +75,7 @@ export default function Register({ isOpen, onClose, onSwitchToLogin }) {
 
               {/* Email */}
               <div className="group flex flex-col space-y-2 border-b border-zinc-200 focus-within:border-amber-600 transition-colors pb-1">
-                <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600">Email Address</label>
+                <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600">Địa Chỉ Email</label>
                 <input 
                   className="bg-transparent border-none p-0 focus:ring-0 text-on-surface font-headline italic text-lg placeholder:text-zinc-300 outline-none" 
                   placeholder="vane@atelier.com" required type="email"
@@ -85,7 +85,7 @@ export default function Register({ isOpen, onClose, onSwitchToLogin }) {
 
               {/* Password */}
               <div className="group flex flex-col space-y-2 border-b border-zinc-200 focus-within:border-amber-600 transition-colors pb-1">
-                <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600">Password</label>
+                <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600">Mật Khẩu</label>
                 <input 
                   className="bg-transparent border-none p-0 focus:ring-0 text-on-surface font-body text-lg placeholder:text-zinc-300 tracking-widest outline-none" 
                   placeholder="••••••••" required type="password"
@@ -96,24 +96,24 @@ export default function Register({ isOpen, onClose, onSwitchToLogin }) {
               <div className="flex items-start space-x-4 pt-4">
                 <input className="h-4 w-4 rounded-sm border-zinc-300 text-amber-600 focus:ring-amber-500" type="checkbox" id="circle" />
                 <label className="text-xs text-zinc-500 leading-tight" htmlFor="circle">
-                  Apply for the <span className="text-black font-semibold italic">Atelier Inner Circle</span> for priority reservations.
+                  Đăng ký cho <span className="text-black font-semibold italic">Vòng Tròn Trong Atelier</span> để có quyền ưu tiên đặt bàn.
                 </label>
               </div>
 
               <button type="submit" className="w-full bg-black py-5 text-white font-label text-xs uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all shadow-xl flex justify-center items-center gap-2 group">
-                Request Membership
+                Yêu Cầu Kỷ Niệm
                 <span className="material-symbols-outlined text-amber-400 group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
               </button>
 
               <div className="text-center pt-8">
                 <p className="font-body text-xs text-zinc-500">
-                  Already part of our story? 
+                  Đã là bộ phận của câu chuyện của chúng tôi? 
                   <button 
                     type="button" // Thêm type="button" để không làm submit form
                     onClick={onSwitchToLogin}
                     className="text-amber-600 font-semibold hover:underline ml-1"
                   >
-                    Sign In
+                    Đăng Nhập
                   </button>
                 </p>
               </div>

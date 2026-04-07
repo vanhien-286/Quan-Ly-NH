@@ -20,7 +20,7 @@ export default function Login({ isOpen, onClose, onLoginSuccess }) {
       // Báo cho App.jsx biết để hiện nút Logout và tên User
       onLoginSuccess(response.data.user);
       
-      alert("Welcome back, " + response.data.user.fullName);
+      alert("Chào mừng trở lại, " + response.data.user.fullName);
     } catch (error) {
       alert(error.response?.data?.message || "Email hoặc mật khẩu không đúng!");
     }
@@ -42,8 +42,8 @@ export default function Login({ isOpen, onClose, onLoginSuccess }) {
         </button>
 
         <header className="mb-10 text-left">
-          <h2 className="font-headline text-4xl mb-2 text-zinc-900">Access Atelier</h2>
-          <p className="text-zinc-500 text-xs uppercase tracking-widest font-label">Authentic Culinary Experience</p>
+          <h2 className="font-headline text-4xl mb-2 text-zinc-900">Truy Cập Atelier</h2>
+          <p className="text-zinc-500 text-xs uppercase tracking-widest font-label">Trải Nghiệm Ẩm Thực Chân Thực</p>
         </header>
 
         {/* FORM ĐĂNG NHẬP */}
@@ -51,7 +51,7 @@ export default function Login({ isOpen, onClose, onLoginSuccess }) {
           
           <div className="space-y-1 group">
             <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600 transition-colors">
-              Email Address
+              Địa Chỉ Email
             </label>
             <input 
               className="w-full border-b border-zinc-200 py-2 outline-none focus:border-amber-600 transition-colors font-body" 
@@ -65,10 +65,10 @@ export default function Login({ isOpen, onClose, onLoginSuccess }) {
           <div className="space-y-1 group">
             <div className="flex justify-between items-end">
               <label className="font-label text-[10px] uppercase tracking-widest text-zinc-500 group-focus-within:text-amber-600 transition-colors">
-                Password
+                Mật Khẩu
               </label>
               <button type="button" className="font-label text-[10px] uppercase tracking-widest hover:text-amber-600 transition-colors">
-                Forgot?
+                Quên Mật Khẩu?
               </button>
             </div>
             <input 
@@ -85,7 +85,7 @@ export default function Login({ isOpen, onClose, onLoginSuccess }) {
               className="w-full bg-zinc-900 py-4 text-white font-label text-xs uppercase tracking-[0.2em] font-bold hover:bg-black transition-all shadow-lg active:scale-95" 
               type="submit"
             >
-              Enter the Circle
+              Vào Vòng Tròn
             </button>
           </div>
         </form>

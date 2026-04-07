@@ -5,25 +5,25 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
   const navigate = useNavigate();
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'dishes', label: 'Dishes' },
-    { id: 'drinks', label: 'Drinks' },
-    { id: 'desserts', label: 'Desserts' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'home', label: 'Trang Chủ' },
+    { id: 'phos', label: 'Nhà phở' },
+    { id: 'sides', label: 'Nước uống' },
+    { id: 'articles', label: 'Bài Viế' },
+    { id: 'contact', label: 'Liên Hệ' }
   ];
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-stone-200 bg-stone-50/80 backdrop-blur-md dark:bg-zinc-950/80">
+    <nav className="fixed top-0 w-full z-50 border-b border-emerald-200 bg-emerald-50/80 backdrop-blur-md dark:bg-emerald-950/80 dark:border-emerald-900">
       <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between gap-4 px-6 py-6 md:px-12">
 
         
         <div className="flex items-center gap-12">
           <span 
-            className="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-['Noto_Serif'] cursor-pointer"
+            className="text-2xl font-bold tracking-tighter text-emerald-900 dark:text-emerald-50 font-['Noto_Serif'] cursor-pointer"
             onClick={() => navigate('/')}
           >
-            Culinary Atelier
+            Nhà Phở 
           </span>
-          <div className="hidden md:flex gap-8 text-base font-medium text-zinc-600 tracking-tight dark:text-zinc-400 font-['Noto_Serif']">
+          <div className="hidden md:flex gap-8 text-base font-medium text-emerald-700 tracking-tight dark:text-emerald-300 font-['Noto_Serif']">
             {navItems.map((item) => (
               <Link
                 key={item.id}
@@ -32,8 +32,8 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
                 smooth={true}        // Cuộn mượt mà
                 offset={-90}         // Khoảng cách trừ hao để không bị Navbar che mất tiêu đề
                 duration={500}       // Tốc độ cuộn (500ms)
-                activeClass="text-amber-500 border-b-2 border-amber-500 font-bold"
-                className="transition-colors hover:text-amber-500 cursor-pointer pb-1"
+                activeClass="text-emerald-700 border-b-2 border-emerald-700 font-bold"
+                className="transition-colors hover:text-emerald-700 cursor-pointer pb-1"
               >
                 {item.label}
               </Link>
@@ -42,31 +42,40 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
         </div>
         {/* kiểm tra*/}
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => navigate('/reservation')}
-            className="rounded-sm bg-amber-600 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-amber-700 active:scale-95"
-            type="button"
-          >
-            Đặt Bàn
-          </button>
           {user ? (
             <>
               <button
+                onClick={() => navigate('/reservation')}
+                className="rounded-sm bg-emerald-700 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-emerald-800 active:scale-95"
+                type="button"
+              >
+                Đặt Bàn
+              </button>
+              <button
                 onClick={() => navigate('/my-reservations')}
-                className="rounded-sm bg-blue-600 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-blue-700 active:scale-95"
+                className="rounded-sm bg-teal-700 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-teal-800 active:scale-95"
                 type="button"
               >
                 Lịch Sử
               </button>
-              <span className="text-zinc-800 dark:text-zinc-200 font-medium font-['Noto_Serif']">
-                Hello, <span className="text-amber-600">{user.fullName || 'Chef'}</span>
+              {user.role === 'admin' && (
+                <button
+                  onClick={() => navigate('/admin')}
+                  className="rounded-sm bg-emerald-900 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-emerald-950 active:scale-95"
+                  type="button"
+                >
+                  🔧 Admin
+                </button>
+              )}
+              <span className="text-emerald-800 dark:text-emerald-200 font-medium font-['Noto_Serif']">
+                Xin chào, <span className="text-emerald-700">{user.fullName || 'Bạn'}</span>
               </span>
               <button
                 onClick={onLogout}
                 className="rounded-sm bg-red-600 px-5 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-red-700 active:scale-95"
                 type="button"
               >
-                Logout
+                Đăng Xuất
               </button>
             </>
           ) : (
@@ -74,17 +83,17 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
             <>
               <button
                 onClick={onLoginClick}
-                className="rounded-sm px-6 py-2 text-sm font-medium text-zinc-600 transition-all duration-200 hover:text-zinc-900 active:scale-95 dark:text-zinc-400"
+                className="rounded-sm px-6 py-2 text-sm font-medium text-emerald-700 transition-all duration-200 hover:text-emerald-900 active:scale-95 dark:text-emerald-300 dark:hover:text-emerald-100"
                 type="button"
               >
-                Login
+                Đăng Nhập
               </button>
               <button
                 onClick={onRegisterClick}
-                className="rounded-sm bg-black px-6 py-2 text-sm font-medium text-white transition-transform duration-200 active:scale-95"
+                className="rounded-sm bg-emerald-700 dark:bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-transform duration-200 hover:bg-emerald-800 dark:hover:bg-emerald-700 active:scale-95"
                 type="button"
               >
-                Register
+                Đăng Ký
               </button>
             </>
           )}
