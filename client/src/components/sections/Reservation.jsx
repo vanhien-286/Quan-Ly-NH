@@ -237,11 +237,10 @@ const Reservation = () => {
                       key={table.TableID}
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, tableId: table.TableID }))}
-                      className={`p-3 rounded-lg font-semibold transition ${
-                        formData.tableId === table.TableID
+                      className={`p-3 rounded-lg font-semibold transition ${formData.tableId === table.TableID
                           ? 'bg-emerald-700 dark:bg-emerald-600 text-white'
                           : 'bg-emerald-100 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 hover:bg-emerald-200 dark:hover:bg-emerald-700'
-                      }`}
+                        }`}
                     >
                       Bàn {table.TableNumber}
                       <br />

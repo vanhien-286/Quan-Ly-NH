@@ -25,13 +25,13 @@ export default function Hero({ user, onLoginClick }) {
   };
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-12 overflow-hidden bg-emerald-950" id="home">
-      
+
       {/* BACKGROUND AREA */}
       <div className="absolute inset-0 z-0">
-        <img 
-          alt="Phở Hà Nội" 
-          className="w-full h-full object-cover scale-105 animate-subtle-zoom" 
-          src="https://i.ytimg.com/vi/99tOr7JSr0k/maxresdefault.jpg" 
+        <img
+          alt="Phở Hà Nội"
+          className="w-full h-full object-cover scale-105 animate-subtle-zoom"
+          src="https://i.ytimg.com/vi/99tOr7JSr0k/maxresdefault.jpg"
         />
         {/* Lớp phủ Gradient đa tầng giúp chữ dễ đọc và sang hơn */}
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-950 via-emerald-950/40 to-transparent"></div>
@@ -40,8 +40,8 @@ export default function Hero({ user, onLoginClick }) {
 
       {/* CONTENT AREA */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        
-        <motion.div 
+
+        <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -55,8 +55,8 @@ export default function Hero({ user, onLoginClick }) {
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-8 text-white font-['Noto_Serif'] tracking-tighter">
-             Tròn vị, Đủ chất cùng<span className="italic font-light text-emerald-200">NHÀ PHỞ HÀ NỘI</span> <br /> 
-            
+            Tròn vị, Đủ chất cùng<span className="italic font-light text-emerald-200">NHÀ PHỞ HÀ NỘI</span> <br />
+
           </h1>
 
           <p className="font-sans text-lg text-emerald-100 max-w-md leading-relaxed mb-12 border-l border-emerald-700 pl-6">
@@ -64,15 +64,15 @@ export default function Hero({ user, onLoginClick }) {
           </p>
 
           <div className="flex flex-wrap gap-8 items-center">
-            <button 
+            <button
               onClick={handleReserveClick}
               className="group relative overflow-hidden bg-emerald-700 px-10 py-4 text-white text-[10px] uppercase tracking-[0.3em] font-bold transition-all hover:bg-emerald-800 shadow-2xl active:scale-95"
             >
               <span className="relative z-10">Đặt Bàn Ngay</span>
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
-            
-            <Link 
+
+            <Link
               to="phos"
               spy={true}
               smooth={true}
@@ -91,7 +91,7 @@ export default function Hero({ user, onLoginClick }) {
         </motion.div>
 
         {/* PHẦN QUẢNG CÁO MÓN ĂN (GÓC PHẢI) */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -109,7 +109,7 @@ export default function Hero({ user, onLoginClick }) {
 
       {/* HIỆU ỨNG CUỘN (SCROLL DECOR) */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-50">
-          <div className="w-[1px] h-12 bg-gradient-to-t from-emerald-500 to-transparent animate-bounce"></div>
+        <div className="w-[1px] h-12 bg-gradient-to-t from-emerald-500 to-transparent animate-bounce"></div>
       </div>
     </section>
   );

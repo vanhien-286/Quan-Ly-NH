@@ -39,8 +39,8 @@ export default function ArticleDetail() {
     return (
       <div className="min-h-screen bg-emerald-50 dark:bg-emerald-950 flex flex-col items-center justify-center pt-24 space-y-6 text-emerald-700">
         <p className="text-xl">{error || "Bài viết không tồn tại"}</p>
-        <button 
-          onClick={() => navigate("/")} 
+        <button
+          onClick={() => navigate("/")}
           className="bg-emerald-700 text-white px-6 py-2 rounded-sm hover:bg-emerald-800 transition-colors"
         >
           Quay lại Trang Chủ
@@ -54,20 +54,20 @@ export default function ArticleDetail() {
       <div className="max-w-4xl mx-auto bg-white dark:bg-emerald-900 shadow-xl rounded-lg overflow-hidden border border-emerald-100 dark:border-emerald-800">
         {/* Nút quay lại */}
         <div className="p-6 border-b border-emerald-100 dark:border-emerald-800">
-           <button 
-             onClick={() => navigate(-1)} 
-             className="text-emerald-700 dark:text-emerald-400 font-medium hover:underline flex items-center gap-2"
-           >
-             ← Lùi lại
-           </button>
+          <button
+            onClick={() => navigate(-1)}
+            className="text-emerald-700 dark:text-emerald-400 font-medium hover:underline flex items-center gap-2"
+          >
+            ← Lùi lại
+          </button>
         </div>
 
         {/* Thumbnail bài viết */}
         {article.ImageUrl && (
           <div className="w-full h-[400px] overflow-hidden">
-            <img 
-              src={article.ImageUrl} 
-              alt={article.Title} 
+            <img
+              src={article.ImageUrl}
+              alt={article.Title}
               className="w-full h-full object-cover"
             />
           </div>
@@ -82,7 +82,7 @@ export default function ArticleDetail() {
             {article.Title}
           </h1>
           <div className="w-16 h-[3px] bg-emerald-500 mb-8"></div>
-          
+
           <p className="text-xl text-emerald-800 dark:text-emerald-200 font-['Noto_Serif'] italic mb-10 leading-relaxed border-l-4 border-emerald-500 pl-6">
             {article.Summary}
           </p>

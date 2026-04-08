@@ -5,7 +5,7 @@ export default function Contact() {
     <section className="py-32 bg-emerald-50 dark:bg-emerald-950" id="contact">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
-          
+
           {/* CỘT TRÁI: THÔNG TIN LIÊN HỆ */}
           <div className="space-y-16">
             <div>
@@ -63,20 +63,20 @@ export default function Contact() {
           <div className="relative">
             {/* Trang trí phía sau form */}
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-100/50 dark:bg-emerald-900/10 rounded-full blur-3xl"></div>
-            
+
             <div className="relative bg-white dark:bg-emerald-900 p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-emerald-100 dark:border-emerald-800">
               <h3 className="text-2xl font-['Noto_Serif'] mb-10 text-emerald-950 dark:text-emerald-50">Yêu Cầu & Đặt Bàn</h3>
-              
+
               <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
                 {/* Input Name */}
                 <div className="group relative">
                   <label className="absolute -top-6 left-0 text-[10px] uppercase tracking-[0.2em] text-emerald-500 group-focus-within:text-emerald-700 transition-colors">
                     Tên Đầy Đủ
                   </label>
-                  <input 
-                    className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50" 
-                    placeholder="Nhân Thứ Phở" 
-                    type="text" 
+                  <input
+                    className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50"
+                    placeholder="Nhân Thứ Phở"
+                    type="text"
                   />
                 </div>
 
@@ -85,10 +85,10 @@ export default function Contact() {
                   <label className="absolute -top-6 left-0 text-[10px] uppercase tracking-[0.2em] text-emerald-500 group-focus-within:text-emerald-700 transition-colors">
                     Địa Chỉ Email
                   </label>
-                  <input 
-                    className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50" 
-                    placeholder="pho@nampho.com" 
-                    type="email" 
+                  <input
+                    className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50"
+                    placeholder="pho@nampho.com"
+                    type="email"
                   />
                 </div>
 
@@ -97,9 +97,9 @@ export default function Contact() {
                   <label className="absolute -top-6 left-0 text-[10px] uppercase tracking-[0.2em] text-emerald-500 group-focus-within:text-emerald-700 transition-colors">
                     Tin Nhắn
                   </label>
-                  <textarea 
-                    className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50 min-h-[100px] resize-none" 
-                    placeholder="Cho chúng tôi biết yêu cầu của bạn..." 
+                  <textarea
+                    className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50 min-h-[100px] resize-none"
+                    placeholder="Cho chúng tôi biết yêu cầu của bạn..."
                   />
                 </div>
 

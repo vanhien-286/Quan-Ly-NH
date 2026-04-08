@@ -37,12 +37,12 @@ export default function Articles() {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/articles/public");
-      
+
       if (response.data.data && response.data.data.length > 0) {
         const dbArticles = response.data.data.filter(article => article.IsVisible !== false);
-        
+
         if (dbArticles.length > 0) {
-          setArticles(dbArticles.slice(0, 3)); 
+          setArticles(dbArticles.slice(0, 3));
         } else {
           setArticles(defaultArticles);
         }
@@ -76,21 +76,21 @@ export default function Articles() {
       {/* ARTICLES GRID */}
       {loading ? (
         <div className="text-center py-10">
-           <p className="text-emerald-700">Đang tải...</p>
+          <p className="text-emerald-700">Đang tải...</p>
         </div>
       ) : (
         <div className="flex flex-nowrap md:grid md:grid-cols-3 gap-0 overflow-x-auto pb-12 snap-x scrollbar-hide">
           {articles.map((article, index) => (
-            <div 
-              key={article.ArticleID} 
+            <div
+              key={article.ArticleID}
               className={`min-w-[85vw] md:min-w-0 snap-center bg-white dark:bg-emerald-900 relative group border-emerald-200 dark:border-emerald-800 ${index !== 2 ? 'md:border-r' : ''}`}
             >
               {/* Image Container */}
               <div className="aspect-square overflow-hidden relative">
-                <img 
-                  alt={article.Title} 
-                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110" 
-                  src={article.ImageUrl || "https://images.unsplash.com/photo-1582878826629-29b7ad1c602d?w=400&h=300&fit=crop"} 
+                <img
+                  alt={article.Title}
+                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                  src={article.ImageUrl || "https://images.unsplash.com/photo-1582878826629-29b7ad1c602d?w=400&h=300&fit=crop"}
                 />
                 {/* Overlay khi hover */}
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -105,7 +105,7 @@ export default function Articles() {
                   {article.Summary}
                 </p>
                 <div className="text-right mt-4">
-                  <button 
+                  <button
                     onClick={() => navigate(`/article/${article.ArticleID}`)}
                     className="text-[10px] uppercase tracking-widest font-bold border-b border-emerald-300 dark:border-emerald-700 pb-1 hover:border-emerald-700 transition-colors text-emerald-700 dark:text-emerald-400"
                   >

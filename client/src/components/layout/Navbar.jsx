@@ -15,13 +15,13 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
   return (
     <nav className="fixed top-0 w-full z-50 border-b border-emerald-200 bg-emerald-50/95 backdrop-blur-md dark:bg-emerald-950/90 dark:border-emerald-900 shadow-md">
       <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between gap-4 px-6 py-5 md:px-12">
-        
+
         <div className="flex items-center gap-12">
-          <span 
+          <span
             className="text-3xl font-black tracking-tighter text-emerald-900 dark:text-emerald-50 font-serif cursor-pointer"
             onClick={() => navigate('/')}
           >
-            Nhà Phở 
+            Nhà Phở
           </span>
           <div className="hidden md:flex gap-10 text-xl font-bold text-emerald-700 tracking-tight dark:text-emerald-300 font-serif">
             {navItems.map((item) => (
