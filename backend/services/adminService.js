@@ -298,8 +298,16 @@ exports.getRevenueOverview = async () => {
         COUNT(DISTINCT o.OrderID) as TotalOrders,
         COUNT(DISTINCT o.UserID) as TotalCustomers,
         ISNULL(SUM(o.TotalAmount), 0) as TotalRevenue,
-        ISNULL(SUM(CASE WHEN DATEDIFF(day, o.CreatedAt, GETDATE()) = 0 THEN o.TotalAmount ELSE 0 END), 0) as TodayRevenue,
-        ISNULL(SUM(CASE WHEN DATEDIFF(month, o.CreatedAt, GETDATE()) = 0 AND DATEDIFF(year, o.CreatedAt, GETDATE()) = 0 THEN o.TotalAmount ELSE 0 END), 0) as MonthRevenue
+        ISNULL(SUM(CASE 
+          WHEN CAST(o.CreatedAt AT TIME ZONE 'UTC' AT TIME ZONE 'SE Asia Standard Time' AS DATE)
+             = CAST(GETUTCDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'SE Asia Standard Time' AS DATE)
+          THEN o.TotalAmount ELSE 0 END), 0) as TodayRevenue,
+        ISNULL(SUM(CASE 
+          WHEN MONTH(o.CreatedAt AT TIME ZONE 'UTC' AT TIME ZONE 'SE Asia Standard Time')
+             = MONTH(GETUTCDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'SE Asia Standard Time')
+           AND YEAR(o.CreatedAt AT TIME ZONE 'UTC' AT TIME ZONE 'SE Asia Standard Time')
+             = YEAR(GETUTCDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'SE Asia Standard Time')
+          THEN o.TotalAmount ELSE 0 END), 0) as MonthRevenue
       FROM Orders o
       WHERE o.Status = 'Completed'
     `);

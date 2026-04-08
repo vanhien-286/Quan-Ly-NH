@@ -17,6 +17,11 @@ h1, h2, h3, h4, .font-serif {
   font-family: var(--font-serif) !important;
 }
 
+/* Toàn bộ văn bản viết vào (inputs) chuyển sang Times New Roman */
+input, textarea, select {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
 /* Giữ lại các class CSS đặc biệt của bạn bên dưới */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;

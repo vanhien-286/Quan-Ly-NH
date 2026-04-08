@@ -1,6 +1,27 @@
 import React from 'react';
 
 export default function Contact() {
+  const [contactForm, setContactForm] = React.useState({ name: '', email: '', message: '' });
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(contactForm.email)) {
+      alert('Địa chỉ email không hợp lệ!');
+      return;
+    }
+
+    if (!contactForm.name || !contactForm.message) {
+      alert('Vui lòng điền đầy đủ các trường thông tin!');
+      return;
+    }
+
+    alert(`Cảm ơn ${contactForm.name}! Yêu cầu của bạn đã được gửi thành công. Chúng tôi sẽ phản hồi sớm nhất qua email ${contactForm.email}.`);
+    setContactForm({ name: '', email: '', message: '' });
+  };
+
   return (
     <section className="py-32 bg-emerald-50 dark:bg-emerald-950" id="contact">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -67,7 +88,7 @@ export default function Contact() {
             <div className="relative bg-white dark:bg-emerald-900 p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-emerald-100 dark:border-emerald-800">
               <h3 className="text-2xl font-['Noto_Serif'] mb-10 text-emerald-950 dark:text-emerald-50">Yêu Cầu & Đặt Bàn</h3>
 
-              <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-10" onSubmit={handleContactSubmit}>
                 {/* Input Name */}
                 <div className="group relative">
                   <label className="absolute -top-6 left-0 text-[10px] uppercase tracking-[0.2em] text-emerald-500 group-focus-within:text-emerald-700 transition-colors">
@@ -77,6 +98,9 @@ export default function Contact() {
                     className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50"
                     placeholder="Nhân Thứ Phở"
                     type="text"
+                    required
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                   />
                 </div>
 
@@ -89,6 +113,9 @@ export default function Contact() {
                     className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50"
                     placeholder="pho@nampho.com"
                     type="email"
+                    required
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                   />
                 </div>
 
@@ -100,10 +127,13 @@ export default function Contact() {
                   <textarea
                     className="w-full bg-transparent border-b border-emerald-200 dark:border-emerald-800 py-3 outline-none focus:border-emerald-700 transition-colors placeholder:text-emerald-300 dark:placeholder:text-emerald-700 text-emerald-950 dark:text-emerald-50 min-h-[100px] resize-none"
                     placeholder="Cho chúng tôi biết yêu cầu của bạn..."
+                    required
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                   />
                 </div>
 
-                <button className="w-full bg-emerald-700 dark:bg-emerald-600 text-white dark:text-white py-5 font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-emerald-800 dark:hover:bg-emerald-700 transition-all duration-300 shadow-xl active:scale-[0.98]">
+                <button type="submit" className="w-full bg-emerald-700 dark:bg-emerald-600 text-white dark:text-white py-5 font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-emerald-800 dark:hover:bg-emerald-700 transition-all duration-300 shadow-xl active:scale-[0.98]">
                   Yêu Cầu Đặt Bàn
                 </button>
               </form>

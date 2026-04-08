@@ -118,6 +118,18 @@ const Reservation = () => {
       return;
     }
 
+    const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setErrorMessage('Số điện thoại không hợp lệ! (Phải có 10 chữ số và bắt đầu bằng 03, 05, 07, 08, hoặc 09)');
+      return;
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrorMessage('Email không hợp lệ!');
+      return;
+    }
+
     try {
       setLoading(true);
       if (editData) {
@@ -214,6 +226,8 @@ const Reservation = () => {
                   placeholder="Nhập email"
                   className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
+                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                  title="Vui lòng nhập địa chỉ email hợp lệ (VD: ten@domain.com)"
                 />
               </div>
             </div>
@@ -230,6 +244,9 @@ const Reservation = () => {
                   placeholder="Nhập số điện thoại"
                   className="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 border border-emerald-200 dark:border-emerald-700"
                   required
+                  pattern="^(0[3|5|7|8|9])+([0-9]{8})$"
+                  title="Vui lòng nhập số điện thoại hợp lệ của Việt Nam (10 số, bắt đầu bằng 03, 05, 07, 08, 09)"
+                  maxLength="10"
                 />
               </div>
               <div>
