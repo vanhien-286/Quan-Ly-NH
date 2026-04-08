@@ -24,7 +24,7 @@ export default function Hero({ user, onLoginClick }) {
     // Đã đăng nhập hoặc sau khi login - scroll xuống menu
   };
   return (
-    <section className="relative min-h-[90vh] lg:min-h-screen flex items-center overflow-hidden bg-emerald-950" id="home">
+    <section className="relative min-h-screen flex items-center pt-32 pb-12 overflow-hidden bg-emerald-950" id="home">
       
       {/* BACKGROUND AREA */}
       <div className="absolute inset-0 z-0">
@@ -86,7 +86,6 @@ export default function Hero({ user, onLoginClick }) {
               className="group flex items-center gap-3 text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:text-emerald-400 transition-colors cursor-pointer"
             >
               Xem Thực Đơn Phở
-              <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward</span>
             </Link>
           </div>
         </motion.div>

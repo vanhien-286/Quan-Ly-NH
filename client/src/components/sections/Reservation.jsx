@@ -106,7 +106,7 @@ const Reservation = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-emerald-900 py-12 px-4">
+    <section className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-emerald-900 pt-32 pb-16 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white dark:bg-emerald-900 rounded-lg shadow-xl p-8 relative border border-emerald-200 dark:border-emerald-800">
           {/* Nút đóng */}

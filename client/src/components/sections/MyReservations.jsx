@@ -83,7 +83,7 @@ const MyReservations = () => {
   }
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-emerald-900 py-12 px-4">
+    <section className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-emerald-900 pt-32 pb-16 px-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-emerald-950 dark:text-emerald-50 text-center mb-2">Các Lần Đặt Bàn Của Tôi</h1>
         <p className="text-emerald-600 dark:text-emerald-300 text-center mb-8">Quản lý các lần đặt bàn của bạn</p>

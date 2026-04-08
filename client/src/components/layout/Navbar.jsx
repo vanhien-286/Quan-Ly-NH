@@ -13,18 +13,17 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
     { id: 'contact', label: 'Liên Hệ' }
   ];
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-emerald-200 bg-emerald-50/80 backdrop-blur-md dark:bg-emerald-950/80 dark:border-emerald-900">
-      <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between gap-4 px-6 py-6 md:px-12">
-
+    <nav className="fixed top-0 w-full z-50 border-b border-emerald-200 bg-emerald-50/95 backdrop-blur-md dark:bg-emerald-950/90 dark:border-emerald-900 shadow-md">
+      <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between gap-4 px-6 py-5 md:px-12">
         
         <div className="flex items-center gap-12">
           <span 
-            className="text-2xl font-bold tracking-tighter text-emerald-900 dark:text-emerald-50 font-['Noto_Serif'] cursor-pointer"
+            className="text-3xl font-black tracking-tighter text-emerald-900 dark:text-emerald-50 font-serif cursor-pointer"
             onClick={() => navigate('/')}
           >
             Nhà Phở 
           </span>
-          <div className="hidden md:flex gap-8 text-base font-medium text-emerald-700 tracking-tight dark:text-emerald-300 font-['Noto_Serif']">
+          <div className="hidden md:flex gap-10 text-xl font-bold text-emerald-700 tracking-tight dark:text-emerald-300 font-serif">
             {navItems.map((item) => (
               <Link
                 key={item.id}
