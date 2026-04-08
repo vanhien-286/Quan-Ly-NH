@@ -15,7 +15,7 @@ export default function Contact() {
               <h2 className="text-5xl md:text-6xl font-bold font-['Noto_Serif'] mb-8 text-emerald-950 dark:text-emerald-50 tracking-tighter">
                 Liên Hệ Với Chúng Tôi
               </h2>
-              <p className="text-emerald-700 dark:text-emerald-300 font-['Noto_Serif'] italic text-lg max-w-md">
+              <p className="text-emerald-700 dark:text-emerald-300 font-['Noto_Serif'] italic text-3xl max-w-md">
                 Cho dù bạn đang lên kế hoạch cho một bữa tối chung phở gia đình hay một lễ kỷ niệm đặc biệt, đội ngũ của chúng tôi ở đây để tạo ra trải nghiệm hoàn hảo.
               </p>
             </div>

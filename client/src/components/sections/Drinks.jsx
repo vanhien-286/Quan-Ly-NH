@@ -51,14 +51,14 @@ export default function Drinks() {
 
         {/* HEADER */}
         <div className="text-center mb-20">
-          <span className="font-sans text-amber-700 uppercase tracking-[0.3em] text-[10px] font-bold mb-4 block">
+          <span className="font-sans text-amber-700 uppercase tracking-[0.3em] text-xs font-bold mb-4 block">
             Thức Uống
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold font-serif mb-4 text-amber-950 dark:text-amber-50">
+          <h2 className="text-5xl md:text-7xl font-bold font-serif mb-6 text-amber-950 dark:text-amber-50 leading-tight">
             Đồ Uống Đặc Biệt
           </h2>
-          <div className="w-16 h-[2px] bg-amber-500 mx-auto mb-8"></div>
-          <p className="text-amber-700 dark:text-amber-300 max-w-2xl mx-auto font-serif italic text-lg">
+          <div className="w-24 h-[1px] bg-amber-500 mx-auto mb-8 opacity-50"></div>
+          <p className="text-amber-700 dark:text-amber-300 max-w-3xl mx-auto font-serif italic text-2xl leading-relaxed">
             Các thức uống được chọn lọc kỹ lưỡng để kết hợp hoàn hảo với từng tô phở.
           </p>
         </div>

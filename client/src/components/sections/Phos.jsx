@@ -119,7 +119,7 @@ export default function Phos() {
 
         {/* Footer Note */}
         <div className="mt-24 text-center">
-          <p className="text-emerald-700/50 dark:text-emerald-100/20 font-serif italic text-lg max-w-xl mx-auto">
+          <p className="text-emerald-700/50 dark:text-emerald-100/20 font-serif italic text-3xl max-w-2xl mx-auto">
             "Ẩm thực không chỉ để ăn, mà để cảm nhận linh hồn của một vùng đất."
           </p>
         </div>
