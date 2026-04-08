@@ -99,8 +99,8 @@ export default function Hero({ user, onLoginClick }) {
         >
           <div className="bg-white/5 backdrop-blur-md p-8 border border-white/10 text-right group hover:bg-white/10 transition-colors">
             <p className="text-[10px] font-sans tracking-[0.4em] uppercase text-emerald-400 mb-3 font-bold">Đặc Biệt Hôm Nay</p>
-            <p className="text-3xl font-['Noto_Serif'] italic mb-1 tracking-tight">Phở Bò Xã Đế</p>
-            <p className="text-xs text-emerald-200 font-sans tracking-widest uppercase">Nui ruộm, xen xanh sời, trứng cuăn</p>
+            <p className="text-3xl font-['Noto_Serif'] italic mb-1 tracking-tight">Phở Bò Đặc Biệt</p>
+            <p className="text-xs text-emerald-200 font-sans tracking-widest uppercase">Phở gà, phở bò, giá xào </p>
             <div className="mt-6 h-[1px] w-0 group-hover:w-full bg-emerald-500 transition-all duration-700 ml-auto"></div>
           </div>
         </motion.div>

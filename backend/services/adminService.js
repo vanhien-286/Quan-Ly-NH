@@ -298,7 +298,8 @@ exports.getRevenueOverview = async () => {
         COUNT(DISTINCT o.OrderID) as TotalOrders,
         COUNT(DISTINCT o.UserID) as TotalCustomers,
         ISNULL(SUM(o.TotalAmount), 0) as TotalRevenue,
-        ISNULL(AVG(o.TotalAmount), 0) as AverageOrderValue
+        ISNULL(SUM(CASE WHEN DATEDIFF(day, o.CreatedAt, GETDATE()) = 0 THEN o.TotalAmount ELSE 0 END), 0) as TodayRevenue,
+        ISNULL(SUM(CASE WHEN DATEDIFF(month, o.CreatedAt, GETDATE()) = 0 AND DATEDIFF(year, o.CreatedAt, GETDATE()) = 0 THEN o.TotalAmount ELSE 0 END), 0) as MonthRevenue
       FROM Orders o
       WHERE o.Status = 'Completed'
     `);

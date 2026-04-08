@@ -87,7 +87,7 @@ BEGIN
         NumberOfGuests INT NOT NULL CHECK (NumberOfGuests > 0),
         TableID INT NULL,
         SpecialRequests NVARCHAR(MAX),
-        Status VARCHAR(20) DEFAULT 'Pending' CHECK (Status IN ('Pending', 'Confirmed', 'Cancelled')),
+        Status VARCHAR(20) DEFAULT 'Pending' CHECK (Status IN ('Pending', 'Confirmed', 'Cancelled', 'Completed')),
         CreatedAt DATETIME DEFAULT GETDATE(),
         UpdatedAt DATETIME DEFAULT GETDATE(),
         FOREIGN KEY (UserID) REFERENCES Users(Id) ON DELETE SET NULL,
@@ -105,9 +105,11 @@ BEGIN
         TotalAmount DECIMAL(10, 2) NOT NULL,
         Status VARCHAR(20) DEFAULT 'Pending' CHECK (Status IN ('Pending', 'Confirmed', 'Preparing', 'Ready', 'Completed', 'Cancelled')),
         Notes NVARCHAR(MAX),
+        ReservationID INT NULL,  -- Thêm cột này để liên kết với đặt bàn
         CreatedAt DATETIME DEFAULT GETDATE(),
         UpdatedAt DATETIME DEFAULT GETDATE(),
-        FOREIGN KEY (UserID) REFERENCES Users(Id) ON DELETE SET NULL
+        FOREIGN KEY (UserID) REFERENCES Users(Id) ON DELETE SET NULL,
+        FOREIGN KEY (ReservationID) REFERENCES Reservations(ReservationID) ON DELETE CASCADE
     );
 END
 GO

@@ -21,7 +21,7 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
             className="text-3xl font-black tracking-tighter text-emerald-900 dark:text-emerald-50 font-serif cursor-pointer"
             onClick={() => navigate('/')}
           >
-            Nhà Phở
+            NHÀ PHỞ
           </span>
           <div className="hidden md:flex gap-10 text-xl font-bold text-emerald-700 tracking-tight dark:text-emerald-300 font-serif">
             {navItems.map((item) => (

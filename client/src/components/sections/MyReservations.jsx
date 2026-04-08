@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const MyReservations = () => {
+  const navigate = useNavigate();
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -21,7 +23,9 @@ const MyReservations = () => {
       });
 
       if (response.data.success) {
-        setReservations(response.data.data);
+        // Đảm bảo sắp xếp mới nhất lên đầu (Dựa trên ID)
+        const sorted = response.data.data.sort((a, b) => b.ReservationID - a.ReservationID);
+        setReservations(sorted);
       }
     } catch (err) {
       setError('Lỗi khi tải danh sách đặt bàn: ' + (err.response?.data?.message || err.message));
@@ -136,8 +140,36 @@ const MyReservations = () => {
 
                 {reservation.SpecialRequests && (
                   <div className="mb-4">
-                    <p className="text-emerald-600 dark:text-emerald-300 text-sm">Ghi chú</p>
+                    <p className="text-emerald-600 dark:text-emerald-300 text-sm italic">Lời nhắn của bạn:</p>
                     <p className="text-emerald-800 dark:text-emerald-200">{reservation.SpecialRequests}</p>
+                  </div>
+                )}
+
+                {/* HIỂN THỊ THỰC ĐƠN ĐÃ CHỌN TRƯỚC */}
+                {reservation.OrderDetails && reservation.OrderDetails.length > 0 && (
+                  <div className="mb-6 p-4 bg-emerald-50/50 dark:bg-emerald-800/20 rounded-xl border border-emerald-100 dark:border-emerald-800">
+                    <p className="text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400 mb-3 flex items-center gap-2">
+                       <span className="material-symbols-outlined text-sm">restaurant</span>
+                       Thực đơn đã chọn trước
+                    </p>
+                    <div className="space-y-2">
+                      {reservation.OrderDetails.map((item, idx) => (
+                        <div key={idx} className="flex justify-between text-sm">
+                          <span className="text-emerald-950 dark:text-emerald-50">
+                            {item.DishName} <span className="text-emerald-600">x{item.Quantity}</span>
+                          </span>
+                          <span className="font-semibold text-emerald-700 dark:text-emerald-400">
+                            {(item.Price * item.Quantity).toLocaleString('vi-VN')}đ
+                          </span>
+                        </div>
+                      ))}
+                      <div className="pt-2 mt-2 border-t border-emerald-200 dark:border-emerald-700 flex justify-between items-center">
+                        <span className="font-bold text-emerald-950 dark:text-emerald-50">Tổng tiền món:</span>
+                        <span className="text-lg font-black text-emerald-700 dark:text-emerald-400">
+                          {reservation.TotalAmount?.toLocaleString('vi-VN')}đ
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -151,12 +183,20 @@ const MyReservations = () => {
                 </div>
 
                 {reservation.Status === 'Pending' && (
-                  <button
-                    onClick={() => cancelReservation(reservation.ReservationID)}
-                    className="mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-                  >
-                    Hủy đặt bàn
-                  </button>
+                  <div className="mt-4 flex gap-3">
+                    <button
+                      onClick={() => navigate('/reservation', { state: { editData: reservation } })}
+                      className="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2 px-6 rounded-lg transition"
+                    >
+                      Sửa đặt bàn
+                    </button>
+                    <button
+                      onClick={() => cancelReservation(reservation.ReservationID)}
+                      className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+                    >
+                      Hủy đặt bàn
+                    </button>
+                  </div>
                 )}
               </div>
             ))}

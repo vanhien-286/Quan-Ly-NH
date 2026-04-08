@@ -8,7 +8,8 @@ const app = express();
 
 app.use(cors({
   origin: ["http://localhost:5173", "http://localhost:5174"], // Cho phép cả 2 port
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 app.use(express.json());

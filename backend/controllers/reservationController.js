@@ -14,8 +14,11 @@ exports.getAvailableTables = async (req, res) => {
 // Tạo đặt bàn
 exports.createReservation = async (req, res) => {
     try {
-        const { fullName, email, phone, reservationDate, reservationTime, numberOfGuests, specialRequests, tableId } = req.body;
-        const userId = req.user?.id || null; // Lấy từ JWT token nếu user đã login
+        console.log("Create Reservation Body:", req.body);
+        console.log("Request User:", req.user);
+        const { fullName, email, phone, reservationDate, reservationTime, numberOfGuests, specialRequests, tableId, orderItems } = req.body;
+        const userId = req.user?.id || null; 
+        console.log("Detected UserID:", userId);
 
         const result = await reservationService.createReservation({
             userId,
@@ -26,7 +29,8 @@ exports.createReservation = async (req, res) => {
             reservationTime,
             numberOfGuests,
             specialRequests,
-            tableId
+            tableId,
+            orderItems
         });
 
         res.json({ success: true, message: result.message, reservationId: result.reservationId });
@@ -77,7 +81,7 @@ exports.updateReservationStatus = async (req, res) => {
         const { reservationId } = req.params;
         const { status } = req.body;
 
-        if (!['Pending', 'Confirmed', 'Cancelled'].includes(status)) {
+        if (!['Pending', 'Confirmed', 'Cancelled', 'Completed'].includes(status)) {
             return res.status(400).json({ success: false, message: "Trạng thái không hợp lệ!" });
         }
 
@@ -87,3 +91,28 @@ exports.updateReservationStatus = async (req, res) => {
         res.status(400).json({ success: false, message: err.message });
     }
 };
+
+// Cập nhật đặt bàn (User sửa)
+exports.updateReservation = async (req, res) => {
+    try {
+        const { reservationId } = req.params;
+        const { fullName, email, phone, reservationDate, reservationTime, numberOfGuests, specialRequests, tableId, orderItems } = req.body;
+        
+        const result = await reservationService.updateReservation(reservationId, {
+            fullName,
+            email,
+            phone,
+            reservationDate,
+            reservationTime,
+            numberOfGuests,
+            specialRequests,
+            tableId,
+            orderItems
+        });
+
+        res.json({ success: true, message: result.message });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
+

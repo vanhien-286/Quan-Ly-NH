@@ -8,6 +8,7 @@ const Admin = ({ user }) => {
   const [tables, setTables] = useState([]);
   const [users, setUsers] = useState([]);
   const [revenue, setRevenue] = useState(null);
+  const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [articles, setArticles] = useState([]);
@@ -36,6 +37,7 @@ const Admin = ({ user }) => {
     if (activeTab === "dishes") fetchDishes();
     else if (activeTab === "articles") fetchArticles();
     else if (activeTab === "tables") fetchTables();
+    else if (activeTab === "reservations") fetchReservations();
     else if (activeTab === "users") fetchUsers();
     else if (activeTab === "revenue") fetchRevenue();
   }, [activeTab, user]);
@@ -137,6 +139,11 @@ const Admin = ({ user }) => {
         alert("Cập nhật bài viết thành công");
         setEditingId(null);
       } else {
+        // Kiểm tra giới hạn 3 bài viết khi thêm mới bài viết ở trạng thái hiển thị
+        if (articleForm.isVisible && articles.filter(a => a.IsVisible).length >= 3) {
+          alert("Giao diện trang chủ chỉ hỗ trợ hiển thị tối đa 3 bài viết. Bài viết mới đã được chuyển về trạng thái Ẩn.");
+          articleForm.isVisible = false;
+        }
         await request.post("/articles", articleForm);
         alert("Thêm bài viết thành công");
       }
@@ -172,6 +179,15 @@ const Admin = ({ user }) => {
   };
 
   const handleUpdateArticleFlag = async (articleId, flag, value) => {
+    // Kiểm tra giới hạn 3 bài viết khi bật hiển thị
+    if (flag === 'isVisible' && value === true) {
+      const visibleCount = articles.filter(a => a.IsVisible).length;
+      if (visibleCount >= 3) {
+        alert("Chỉ được hiển thị tối đa 3 bài viết trên trang chủ. Vui lòng tắt bớt bài viết khác trước.");
+        return;
+      }
+    }
+
     try {
       await request.put(`/articles/${articleId}`, { [flag]: value });
       fetchArticles();
@@ -216,6 +232,10 @@ const Admin = ({ user }) => {
   };
 
   const handleEditTable = (table) => {
+    if (table.Status !== 'Available') {
+      alert(`Bàn số ${table.TableNumber} đang ${table.Status === 'Reserved' ? 'đã được đặt' : 'được sử dụng'}, không thể sửa!`);
+      return;
+    }
     setTableForm({
       tableNumber: table.TableNumber,
       capacity: table.Capacity
@@ -225,10 +245,14 @@ const Admin = ({ user }) => {
     setTimeout(() => document.getElementById("tableNumberInput")?.focus(), 100);
   };
 
-  const handleDeleteTable = async (tableId) => {
-    if (!window.confirm("Bạn chắc chắn muốn xoá?")) return;
+  const handleDeleteTable = async (table) => {
+    if (table.Status !== 'Available') {
+      alert(`Bàn số ${table.TableNumber} đang có khách hoặc đã đặt, không thể xoá!`);
+      return;
+    }
+    if (!window.confirm(`Bạn chắc chắn muốn xoá bàn số ${table.TableNumber}?`)) return;
     try {
-      await request.delete(`/admin/tables/${tableId}`);
+      await request.delete(`/admin/tables/${table.TableID}`);
       alert("Xoá thành công");
       fetchTables();
     } catch (err) {
@@ -283,6 +307,31 @@ const Admin = ({ user }) => {
     }
   };
 
+  // ============ QUẢN LÝ ĐẶT BÀN ============
+  const fetchReservations = async () => {
+    try {
+      setLoading(true);
+      const response = await request.get("/reservations/all");
+      setReservations(response.data.data || []);
+    } catch (err) {
+      alert("Lỗi lấy danh sách đặt bàn: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateReservationStatus = async (id, status) => {
+    if (!window.confirm(`Xác nhận chuyển trạng thái sang: ${status}?`)) return;
+    try {
+      await request.put(`/reservations/update-status/${id}`, { status });
+      alert("Cập nhật thành công");
+      fetchReservations();
+      fetchRevenue(); // Tải lại doanh thu ngay lập tức
+    } catch (err) {
+      alert("Lỗi: " + err.message);
+    }
+  };
+
   if (user?.role !== "admin") {
     return <div className="admin-warning">⚠️ Bạn không có quyền truy cập trang quản lý</div>;
   }
@@ -312,6 +361,12 @@ const Admin = ({ user }) => {
           onClick={() => setActiveTab("tables")}
         >
           🪑 Bàn
+        </button>
+        <button
+          className={`tab-btn ${activeTab === "reservations" ? "active" : ""}`}
+          onClick={() => setActiveTab("reservations")}
+        >
+          📦 Đơn Đặt Bàn
         </button>
         <button
           className={`tab-btn ${activeTab === "users" ? "active" : ""}`}
@@ -562,6 +617,8 @@ const Admin = ({ user }) => {
                           <input
                             type="checkbox"
                             checked={article.IsVisible !== undefined ? article.IsVisible : true}
+                            disabled={!article.IsVisible && articles.filter(a => a.IsVisible).length >= 3}
+                            title={!article.IsVisible && articles.filter(a => a.IsVisible).length >= 3 ? "Đã đạt giới hạn 3 bài viết hiển thị" : ""}
                             onChange={(e) => handleUpdateArticleFlag(article.ArticleID, "isVisible", e.target.checked)}
                           />
                         </td>
@@ -639,14 +696,18 @@ const Admin = ({ user }) => {
                         <td>{new Date(table.CreatedAt).toLocaleDateString("vi-VN")}</td>
                         <td className="action-cell">
                           <button
-                            className="btn-edit"
+                            className={`btn-edit ${table.Status !== 'Available' ? 'opacity-50 cursor-not-allowed' : ''}`}
                             onClick={() => handleEditTable(table)}
+                            disabled={table.Status !== 'Available'}
+                            title={table.Status !== 'Available' ? "Không thể sửa bàn đang có khách hoặc đã đặt" : ""}
                           >
                             ✎ Sửa
                           </button>
                           <button
-                            className="btn-delete"
-                            onClick={() => handleDeleteTable(table.TableID)}
+                            className={`btn-delete ${table.Status !== 'Available' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            onClick={() => handleDeleteTable(table)}
+                            disabled={table.Status !== 'Available'}
+                            title={table.Status !== 'Available' ? "Không thể xoá bàn đang có khách hoặc đã đặt" : ""}
                           >
                             🗑️ Xoá
                           </button>
@@ -714,6 +775,101 @@ const Admin = ({ user }) => {
           </div>
         )}
 
+        {/* ============ QUẢN LÝ ĐẶT BÀN ============ */}
+        {activeTab === "reservations" && (
+          <div className="reservation-section">
+             <h2>📦 Quản Lý Đơn Đặt Bàn</h2>
+             <div className="list-section">
+                {loading ? <p>Đang tải...</p> : reservations.length === 0 ? <p>Chưa có lượt đặt bàn nào.</p> : (
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Mã Đơn</th>
+                        <th>Khách Hàng</th>
+                        <th>Thông Tin Tiệc</th>
+                        <th>Thực Đơn Đã Chọn</th>
+                        <th>Ngày Đặt</th>
+                        <th>Trạng Thái</th>
+                        <th>Thao Tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reservations.map(res => (
+                        <tr key={res.ReservationID}>
+                          <td>#{res.ReservationID}</td>
+                          <td>
+                             <div className="user-info-cell">
+                                <p className="font-bold">{res.FullName}</p>
+                                <p className="text-xs">{res.Phone}</p>
+                                <p className="text-xs italic">{res.Email}</p>
+                             </div>
+                          </td>
+                          <td>
+                             <div className="booking-info-cell">
+                                <p>Bàn số: <span className="font-bold">{res.TableNumber}</span></p>
+                                <p>Số khách: {res.NumberOfGuests}</p>
+                                <p>Thời gian: {new Date(res.ReservationDate).toLocaleDateString()} {res.ReservationTime}</p>
+                             </div>
+                          </td>
+                          <td>
+                             {res.OrderDetails && res.OrderDetails.length > 0 ? (
+                               <div className="order-items-summary">
+                                  {res.OrderDetails.map((item, i) => (
+                                    <p key={i} className="text-xs">
+                                      • {item.DishName} (x{item.Quantity})
+                                    </p>
+                                  ))}
+                                  <p className="font-bold text-emerald-700 mt-1 border-t border-emerald-100">
+                                    Tổng: {res.TotalAmount?.toLocaleString()} đ
+                                  </p>
+                               </div>
+                             ) : (
+                               <span className="text-xs text-gray-400 italic">Không gọi món trước</span>
+                             )}
+                          </td>
+                          <td>{new Date(res.CreatedAt).toLocaleDateString()}</td>
+                          <td>
+                             <span className={`status-badge ${res.Status.toLowerCase()}`}>
+                                {res.Status === 'Pending' ? '🕒 Chờ xác nhận' :
+                                 res.Status === 'Confirmed' ? '✅ Đã xác nhận' :
+                                 res.Status === 'Cancelled' ? '❌ Đã hủy' : '✨ Hoàn tất'}
+                             </span>
+                          </td>
+                          <td className="action-cell flex flex-col gap-2">
+                             {res.Status === 'Pending' && (
+                               <button 
+                                onClick={() => handleUpdateReservationStatus(res.ReservationID, 'Confirmed')}
+                                className="btn-confirm-text text-emerald-600 hover:text-emerald-700 font-bold text-xs"
+                               >
+                                 ✔ Xác nhận
+                               </button>
+                             )}
+                             {(res.Status === 'Pending' || res.Status === 'Confirmed') && (
+                               <button 
+                                onClick={() => handleUpdateReservationStatus(res.ReservationID, 'Cancelled')}
+                                className="btn-cancel-text text-red-500 hover:text-red-700 font-bold text-xs"
+                               >
+                                 ✖ Hủy đơn
+                               </button>
+                             )}
+                             {res.Status === 'Confirmed' && (
+                               <button 
+                                onClick={() => handleUpdateReservationStatus(res.ReservationID, 'Completed')}
+                                className="btn-complete-text text-blue-600 hover:text-blue-700 font-bold text-xs"
+                               >
+                                 🎉 Hoàn tất
+                               </button>
+                             )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+             </div>
+          </div>
+        )}
+
         {/* ============ THỐNG KÊ DOANH THU ============ */}
         {activeTab === "revenue" && (
           <div className="revenue-section">
@@ -734,10 +890,16 @@ const Admin = ({ user }) => {
                     {revenue.TotalRevenue?.toLocaleString("vi-VN")} đ
                   </p>
                 </div>
-                <div className="revenue-card">
-                  <h3>Trung Bình Mỗi Đơn</h3>
+                <div className="revenue-card today">
+                  <h3>Doanh Thu Hôm Nay</h3>
                   <p className="revenue-number">
-                    {Math.round(revenue.AverageOrderValue || 0).toLocaleString("vi-VN")} đ
+                    {revenue.TodayRevenue?.toLocaleString("vi-VN")} đ
+                  </p>
+                </div>
+                <div className="revenue-card month">
+                  <h3>Doanh Thu Tháng Này</h3>
+                  <p className="revenue-number">
+                    {revenue.MonthRevenue?.toLocaleString("vi-VN")} đ
                   </p>
                 </div>
               </div>

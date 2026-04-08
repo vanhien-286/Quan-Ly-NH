@@ -27,6 +27,73 @@ h1, h2, h3, h4, .font-serif {
   backdrop-filter: blur(12px);
 }
 
-.signature-gradient {
-  background: linear-gradient(135deg, #000000 0%, #1c1b1b 100%);
+/* ============ PREMIUM ARTICLES SECTION ============ */
+#articles .md\:grid {
+  gap: 2rem !important;
+  padding: 1rem;
+}
+
+#articles .group {
+  border-radius: 24px !important;
+  overflow: hidden;
+  border: none !important; /* Xóa đường kẻ cũ */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark #articles .group {
+  background: rgba(6, 78, 59, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+#articles .group:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 50px rgba(16, 185, 129, 0.15);
+  background: white;
+}
+
+.dark #articles .group:hover {
+  background: rgba(6, 78, 59, 0.4);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+#articles .aspect-square {
+  border-radius: 20px;
+  margin: 15px;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+#articles .group:hover .aspect-square {
+  margin: 10px;
+  border-radius: 15px;
+}
+
+#articles h3 {
+  font-family: var(--font-serif) !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+#articles .p-10 {
+  padding: 1.5rem 2rem 2.5rem 2rem !important;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Hiệu ứng mượt mà cho ảnh */
+#articles img {
+  filter: saturate(0.9);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+#articles .group:hover img {
+  filter: saturate(1.1);
 }

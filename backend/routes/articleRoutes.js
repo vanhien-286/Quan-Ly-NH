@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const articleController = require("../controllers/articleController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const { verifyToken: authMiddleware } = require("../middlewares/authMiddleware");
 
 // Middleware kiểm tra Admin
 const adminOnly = (req, res, next) => {

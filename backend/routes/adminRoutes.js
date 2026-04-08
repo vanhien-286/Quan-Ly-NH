@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require("../controllers/adminController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const reservationController = require("../controllers/reservationController");
+const { verifyToken: authMiddleware } = require("../middlewares/authMiddleware");
 
 // Middleware kiểm tra Admin
 const adminOnly = (req, res, next) => {
@@ -13,7 +14,6 @@ const adminOnly = (req, res, next) => {
 };
 
 // ============ ROUTE PUBLIC (KHÔNG CẦN AUTH) ============
-// Lấy danh sách tất cả dishes - dùng cho menu hiển thị công khai
 router.get("/dishes/public", adminController.getDishes);
 
 // ============ QUẢN LÝ MÓN ĂN ============
@@ -28,6 +28,7 @@ router.post("/tables", authMiddleware, adminOnly, adminController.createTable);
 router.put("/tables/:tableId", authMiddleware, adminOnly, adminController.updateTable);
 router.delete("/tables/:tableId", authMiddleware, adminOnly, adminController.deleteTable);
 router.put("/tables/:tableId/status", authMiddleware, adminOnly, adminController.updateTableStatus);
+
 
 // ============ QUẢN LÝ NGƯỜI DÙNG ============
 router.get("/users", authMiddleware, adminOnly, adminController.getUsers);

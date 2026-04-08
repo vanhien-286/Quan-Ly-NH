@@ -6,7 +6,12 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Router>
+    <Router 
+      future={{ 
+        v7_startTransition: true,
+        v7_relativeSplatPath: true 
+      }}
+    >
       <App />
     </Router>
   </StrictMode>,

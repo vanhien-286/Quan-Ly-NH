@@ -288,6 +288,16 @@
   background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.02) 100%);
 }
 
+.revenue-card.today {
+  border-left-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+}
+
+.revenue-card.month {
+  border-left-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.02) 100%);
+}
+
 .revenue-card h3 {
   margin: 0 0 15px 0;
   color: #666;
@@ -450,9 +460,61 @@
   border-radius: 8px;
 }
 
-.tab-content {
-  animation: fadeIn 0.3s ease;
+/* ============ RESERVATION TAB SPECIFIC ============ */
+.user-info-cell p {
+  margin: 0;
+  line-height: 1.2;
 }
+
+.booking-info-cell p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.order-items-summary {
+  background: #f8fafc;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.status-badge.pending {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #ffedd5;
+}
+
+.status-badge.confirmed {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #d1fae5;
+}
+
+.status-badge.cancelled {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fee2e2;
+}
+
+.status-badge.completed {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #dbeafe;
+}
+
+.btn-confirm-text, .btn-cancel-text, .btn-complete-text {
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-confirm-text:hover { background: #10b981; color: white !important; }
+.btn-cancel-text:hover { background: #ef4444; color: white !important; }
+.btn-complete-text:hover { background: #3b82f6; color: white !important; }
 
 @keyframes fadeIn {
   from {
