@@ -5,7 +5,6 @@ import "./Admin.css";
 const Admin = ({ user }) => {
   const [activeTab, setActiveTab] = useState("dishes");
   const [dishes, setDishes] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [tables, setTables] = useState([]);
   const [users, setUsers] = useState([]);
   const [revenue, setRevenue] = useState(null);
@@ -36,7 +35,6 @@ const Admin = ({ user }) => {
     
     if (activeTab === "dishes") fetchDishes();
     else if (activeTab === "articles") fetchArticles();
-    else if (activeTab === "orders") fetchOrders();
     else if (activeTab === "tables") fetchTables();
     else if (activeTab === "users") fetchUsers();
     else if (activeTab === "revenue") fetchRevenue();
@@ -89,6 +87,8 @@ const Admin = ({ user }) => {
       category: dish.Category || "Phở"
     });
     setEditingId(dish.DishID);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => document.getElementById("dishNameInput")?.focus(), 100);
   };
 
   const handleDeleteDish = async (dishId) => {
@@ -156,6 +156,8 @@ const Admin = ({ user }) => {
       isVisible: article.IsVisible !== undefined ? article.IsVisible : true
     });
     setEditingId(article.ArticleID);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => document.getElementById("articleTitleInput")?.focus(), 100);
   };
 
   const handleDeleteArticle = async (articleId) => {
@@ -177,41 +179,6 @@ const Admin = ({ user }) => {
       alert("Lỗi cập nhật: " + err.message);
     }
   };
-
-  // ============ QUẢN LÝ ĐƠN HÀNG ============
-  const fetchOrders = async () => {
-    try {
-      setLoading(true);
-      const response = await request.get("/admin/orders");
-      setOrders(response.data.data || []);
-    } catch (err) {
-      alert("Lỗi lấy danh sách đơn hàng: " + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdateOrderStatus = async (orderId, status) => {
-    try {
-      await request.put(`/admin/orders/${orderId}/status`, { status });
-      alert("Cập nhật trạng thái thành công");
-      fetchOrders();
-    } catch (err) {
-      alert("Lỗi: " + err.message);
-    }
-  };
-
-  const handleDeleteOrder = async (orderId) => {
-    if (!window.confirm("Bạn chắc chắn muốn xoá?")) return;
-    try {
-      await request.delete(`/admin/orders/${orderId}`);
-      alert("Xoá thành công");
-      fetchOrders();
-    } catch (err) {
-      alert("Lỗi: " + err.message);
-    }
-  };
-
   // ============ QUẢN LÝ BÀN ============
   const fetchTables = async () => {
     try {
@@ -254,6 +221,8 @@ const Admin = ({ user }) => {
       capacity: table.Capacity
     });
     setEditingId(table.TableID);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => document.getElementById("tableNumberInput")?.focus(), 100);
   };
 
   const handleDeleteTable = async (tableId) => {
@@ -339,12 +308,6 @@ const Admin = ({ user }) => {
           📰 Bài Viết
         </button>
         <button
-          className={`tab-btn ${activeTab === "orders" ? "active" : ""}`}
-          onClick={() => setActiveTab("orders")}
-        >
-          📦 Đơn Hàng
-        </button>
-        <button
           className={`tab-btn ${activeTab === "tables" ? "active" : ""}`}
           onClick={() => setActiveTab("tables")}
         >
@@ -371,6 +334,7 @@ const Admin = ({ user }) => {
             <h2>Quản Lý Món Ăn - Nước Uống</h2>
             <form onSubmit={handleAddDish} className="admin-form">
               <input
+                id="dishNameInput"
                 type="text"
                 placeholder="Tên món ăn / nước uống"
                 value={dishForm.dishName}
@@ -522,6 +486,7 @@ const Admin = ({ user }) => {
             <h2>Quản Lý Bài Viết</h2>
             <form onSubmit={handleAddArticle} className="admin-form">
               <input
+                id="articleTitleInput"
                 type="text"
                 placeholder="Tiêu đề bài viết"
                 value={articleForm.title}
@@ -613,74 +578,22 @@ const Admin = ({ user }) => {
           </div>
         )}
 
-        {/* ============ QUẢN LÝ ĐƠN HÀNG ============ */}
-        {activeTab === "orders" && (
-          <div className="order-section">
-            <h2>Quản Lý Đơn Hàng</h2>
-            <div className="list-section">
-              {loading ? <p>Đang tải...</p> : (
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Khách Hàng</th>
-                      <th>Tổng Tiền</th>
-                      <th>Trạng Thái</th>
-                      <th>Ngày</th>
-                      <th>Thao Tác</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order.OrderID}>
-                        <td>{order.OrderID}</td>
-                        <td>{order.FullName || "N/A"}</td>
-                        <td>{order.TotalAmount?.toLocaleString("vi-VN")} đ</td>
-                        <td>
-                          <select
-                            value={order.Status}
-                            onChange={(e) => handleUpdateOrderStatus(order.OrderID, e.target.value)}
-                            className="status-select"
-                          >
-                            <option value="Pending">Chờ Xử Lý</option>
-                            <option value="Confirmed">Đã Xác Nhận</option>
-                            <option value="Preparing">Đang Chuẩn Bị</option>
-                            <option value="Ready">Sẵn Sàng</option>
-                            <option value="Completed">Hoàn Tất</option>
-                            <option value="Cancelled">Huỷ</option>
-                          </select>
-                        </td>
-                        <td>{new Date(order.CreatedAt).toLocaleDateString("vi-VN")}</td>
-                        <td>
-                          <button
-                            className="btn-delete"
-                            onClick={() => handleDeleteOrder(order.OrderID)}
-                          >
-                            🗑️ Xoá
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          </div>
-        )}
-
         {/* ============ QUẢN LÝ BÀN ============ */}
         {activeTab === "tables" && (
           <div className="table-section">
             <h2>Quản Lý Bàn</h2>
             <form onSubmit={handleAddTable} className="admin-form">
               <input
+                id="tableNumberInput"
                 type="number"
+                min="1"
                 placeholder="Số Bàn"
                 value={tableForm.tableNumber}
                 onChange={(e) => setTableForm({ ...tableForm, tableNumber: e.target.value })}
               />
               <input
                 type="number"
+                min="1"
                 placeholder="Sức Chứa"
                 value={tableForm.capacity}
                 onChange={(e) => setTableForm({ ...tableForm, capacity: e.target.value })}

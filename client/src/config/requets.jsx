@@ -28,6 +28,12 @@ request.interceptors.response.use(
       localStorage.removeItem("user");
       window.location.href = "/";
     }
+    
+    // Ghi đè err.message bằng thông báo từ backend (nếu có) để frontend hiển thị alert chính xác hơn
+    if (error.response && error.response.data && error.response.data.message) {
+      error.message = error.response.data.message;
+    }
+    
     return Promise.reject(error);
   }
 );

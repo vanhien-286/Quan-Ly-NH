@@ -37,43 +37,6 @@ exports.deleteDish = async (req, res) => {
   }
 };
 
-// ============ QUẢN LÝ ĐƠN HÀNG ============
-exports.getOrders = async (req, res) => {
-  try {
-    const result = await adminService.getAllOrders();
-    res.json(result);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-exports.getOrderDetail = async (req, res) => {
-  try {
-    const result = await adminService.getOrderDetail(req.params.orderId);
-    res.json(result);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-exports.updateOrderStatus = async (req, res) => {
-  try {
-    const result = await adminService.updateOrderStatus(req.params.orderId, req.body.status);
-    res.json(result);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-exports.deleteOrder = async (req, res) => {
-  try {
-    const result = await adminService.deleteOrder(req.params.orderId);
-    res.json(result);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
 // ============ QUẢN LÝ BÀN ============
 exports.getTables = async (req, res) => {
   try {

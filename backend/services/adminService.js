@@ -114,77 +114,6 @@ exports.deleteDish = async (dishId) => {
   }
 };
 
-// ============ QUẢN LÝ ĐƠN HÀNG ============
-exports.getAllOrders = async () => {
-  try {
-    const result = await pool.request().query(`
-      SELECT o.*, u.FullName, u.Email
-      FROM Orders o
-      LEFT JOIN Users u ON o.UserID = u.Id
-      ORDER BY o.OrderID DESC
-    `);
-    return { success: true, data: result.recordset };
-  } catch (err) {
-    throw new Error("Lỗi lấy danh sách đơn hàng: " + err.message);
-  }
-};
-
-exports.getOrderDetail = async (orderId) => {
-  try {
-    const result = await pool.request()
-      .input("OrderID", sql.Int, orderId)
-      .query(`
-        SELECT o.*, u.FullName, u.Email
-        FROM Orders o
-        LEFT JOIN Users u ON o.UserID = u.Id
-        WHERE o.OrderID = @OrderID
-      `);
-
-    if (result.recordset.length === 0) {
-      throw new Error("Không tìm thấy đơn hàng");
-    }
-
-    return { success: true, data: result.recordset[0] };
-  } catch (err) {
-    throw new Error("Lỗi lấy chi tiết đơn hàng: " + err.message);
-  }
-};
-
-exports.updateOrderStatus = async (orderId, status) => {
-  try {
-    const validStatuses = ["Pending", "Confirmed", "Preparing", "Ready", "Completed", "Cancelled"];
-    
-    if (!validStatuses.includes(status)) {
-      throw new Error("Trạng thái đơn hàng không hợp lệ");
-    }
-
-    await pool.request()
-      .input("OrderID", sql.Int, orderId)
-      .input("Status", sql.VarChar, status)
-      .query(`
-        UPDATE Orders 
-        SET Status = @Status, UpdatedAt = GETDATE()
-        WHERE OrderID = @OrderID
-      `);
-
-    return { success: true, message: "Cập nhật trạng thái đơn hàng thành công" };
-  } catch (err) {
-    throw new Error("Lỗi cập nhật trạng thái: " + err.message);
-  }
-};
-
-exports.deleteOrder = async (orderId) => {
-  try {
-    await pool.request()
-      .input("OrderID", sql.Int, orderId)
-      .query("DELETE FROM Orders WHERE OrderID = @OrderID");
-
-    return { success: true, message: "Xoá đơn hàng thành công" };
-  } catch (err) {
-    throw new Error("Lỗi xoá đơn hàng: " + err.message);
-  }
-};
-
 // ============ QUẢN LÝ BÀN ============
 exports.getAllTables = async () => {
   try {
@@ -205,9 +134,25 @@ exports.createTable = async (data) => {
       throw new Error("Số bàn và sức chứa không được để trống");
     }
 
+    const parsedTableNumber = parseInt(tableNumber, 10);
+    const parsedCapacity = parseInt(capacity, 10);
+
+    if (isNaN(parsedTableNumber) || isNaN(parsedCapacity) || parsedTableNumber <= 0 || parsedCapacity <= 0) {
+        throw new Error("Số bàn và sức chứa phải là số nguyên dương hợp lệ");
+    }
+
+    // Kiểm tra xem số bàn đã tồn tại chưa
+    const checkExist = await pool.request()
+        .input("TableNumber", sql.Int, parsedTableNumber)
+        .query("SELECT TableID FROM Tables WHERE TableNumber = @TableNumber");
+    
+    if (checkExist.recordset.length > 0) {
+        throw new Error("Số bàn này đã tồn tại trong hệ thống");
+    }
+
     const result = await pool.request()
-      .input("TableNumber", sql.Int, tableNumber)
-      .input("Capacity", sql.Int, capacity)
+      .input("TableNumber", sql.Int, parsedTableNumber)
+      .input("Capacity", sql.Int, parsedCapacity)
       .query(`
         INSERT INTO Tables (TableNumber, Capacity, Status, CreatedAt)
         VALUES (@TableNumber, @Capacity, 'Available', GETDATE())
@@ -228,10 +173,27 @@ exports.updateTable = async (tableId, data) => {
   try {
     const { tableNumber, capacity } = data;
 
+    const parsedTableNumber = parseInt(tableNumber, 10);
+    const parsedCapacity = parseInt(capacity, 10);
+
+    if (isNaN(parsedTableNumber) || isNaN(parsedCapacity) || parsedTableNumber <= 0 || parsedCapacity <= 0) {
+        throw new Error("Số bàn và sức chứa phải là số nguyên dương hợp lệ");
+    }
+
+    // Kiểm tra trùng lặp số bàn (trừ bàn hiện tại)
+    const checkExist = await pool.request()
+        .input("TableNumber", sql.Int, parsedTableNumber)
+        .input("TableID", sql.Int, tableId)
+        .query("SELECT TableID FROM Tables WHERE TableNumber = @TableNumber AND TableID != @TableID");
+    
+    if (checkExist.recordset.length > 0) {
+        throw new Error("Số bàn này đã tồn tại");
+    }
+
     await pool.request()
       .input("TableID", sql.Int, tableId)
-      .input("TableNumber", sql.Int, tableNumber)
-      .input("Capacity", sql.Int, capacity)
+      .input("TableNumber", sql.Int, parsedTableNumber)
+      .input("Capacity", sql.Int, parsedCapacity)
       .query(`
         UPDATE Tables 
         SET TableNumber = @TableNumber, Capacity = @Capacity

@@ -22,12 +22,6 @@ router.post("/dishes", authMiddleware, adminOnly, adminController.createDish);
 router.put("/dishes/:dishId", authMiddleware, adminOnly, adminController.updateDish);
 router.delete("/dishes/:dishId", authMiddleware, adminOnly, adminController.deleteDish);
 
-// ============ QUẢN LÝ ĐƠN HÀNG ============
-router.get("/orders", authMiddleware, adminOnly, adminController.getOrders);
-router.get("/orders/:orderId", authMiddleware, adminOnly, adminController.getOrderDetail);
-router.put("/orders/:orderId/status", authMiddleware, adminOnly, adminController.updateOrderStatus);
-router.delete("/orders/:orderId", authMiddleware, adminOnly, adminController.deleteOrder);
-
 // ============ QUẢN LÝ BÀN ============
 router.get("/tables", authMiddleware, adminOnly, adminController.getTables);
 router.post("/tables", authMiddleware, adminOnly, adminController.createTable);
