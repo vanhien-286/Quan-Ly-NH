@@ -411,3 +411,32 @@ exports.getMonthlyRevenue = async () => {
     throw new Error("Lỗi lấy doanh thu theo tháng: " + err.message);
   }
 };
+exports.initializeDatabase = async () => {
+  try {
+    // 1. Tạo bảng Categories
+    await pool.request().query(`
+      IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Categories')
+      BEGIN
+        CREATE TABLE Categories (
+          CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+          CategoryName NVARCHAR(100) NOT NULL,
+          Description NVARCHAR(255)
+        );
+        INSERT INTO Categories (CategoryName) VALUES (N'Phở'), (N'Sides'), (N'Bestseller');
+      END
+    `);
+
+    // 2. Thêm cột CategoryID vào bảng Dishes nếu chưa có
+    await pool.request().query(`
+      IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Dishes') AND name = 'CategoryID')
+      BEGIN
+        ALTER TABLE Dishes ADD CategoryID INT FOREIGN KEY REFERENCES Categories(CategoryID);
+      END
+    `);
+    console.log("Database Migration hoàn tất!");
+  } catch (err) {
+    console.error("Lỗi Migration:", err.message);
+  }
+};
+
+

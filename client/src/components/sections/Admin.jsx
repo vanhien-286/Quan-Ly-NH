@@ -11,8 +11,23 @@ const Admin = ({ user }) => {
   const [revenue, setRevenue] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [articles, setArticles] = useState([]);
+  const [filterCategory, setFilterCategory] = useState("All");
+
+  const filteredDishes = filterCategory === "All" 
+    ? dishes 
+    : dishes.filter(dish => (dish.Category || "Phở") === filterCategory);
+
   // Form states
   const [dishForm, setDishForm] = useState({ dishName: "", price: "", description: "", imageUrl: "", featured: false, isVisible: true, category: "Phở" });
+  const [articleForm, setArticleForm] = useState({ title: "", summary: "", content: "", imageUrl: "", isVisible: true });
+
+  // Danh sách categories
+  const CATEGORIES = [
+    { value: "Phở", label: "🍜 Phở" },
+    { value: "Nước Uống", label: "🥤 Nước Uống" },
+    { value: "Sides", label: "🥢 Món Kèm" }
+  ];
   const [tableForm, setTableForm] = useState({ tableNumber: "", capacity: "" });
   const [editingId, setEditingId] = useState(null);
 
@@ -20,6 +35,7 @@ const Admin = ({ user }) => {
     if (user?.role !== "admin") return;
     
     if (activeTab === "dishes") fetchDishes();
+    else if (activeTab === "articles") fetchArticles();
     else if (activeTab === "orders") fetchOrders();
     else if (activeTab === "tables") fetchTables();
     else if (activeTab === "users") fetchUsers();
@@ -42,7 +58,7 @@ const Admin = ({ user }) => {
   const handleAddDish = async (e) => {
     e.preventDefault();
     if (!dishForm.dishName || !dishForm.price) {
-      alert("Vui lòng điền đầy đủ thông tin");
+      alert("Vui lòng điền đầy đủ tên và giá món ăn");
       return;
     }
 
@@ -90,6 +106,73 @@ const Admin = ({ user }) => {
     try {
       await request.put(`/admin/dishes/${dishId}`, { [flag]: value });
       fetchDishes();
+    } catch (err) {
+      alert("Lỗi cập nhật: " + err.message);
+    }
+  };
+
+  // ============ QUẢN LÝ BÀI VIẾT ============
+  const fetchArticles = async () => {
+    try {
+      setLoading(true);
+      const response = await request.get("/articles");
+      setArticles(response.data.data || []);
+    } catch (err) {
+      alert("Lỗi lấy danh sách bài viết: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddArticle = async (e) => {
+    e.preventDefault();
+    if (!articleForm.title) {
+      alert("Vui lòng nhập tiêu đề bài viết");
+      return;
+    }
+
+    try {
+      if (editingId) {
+        await request.put(`/articles/${editingId}`, articleForm);
+        alert("Cập nhật bài viết thành công");
+        setEditingId(null);
+      } else {
+        await request.post("/articles", articleForm);
+        alert("Thêm bài viết thành công");
+      }
+      setArticleForm({ title: "", summary: "", content: "", imageUrl: "", isVisible: true });
+      fetchArticles();
+    } catch (err) {
+      alert("Lỗi: " + err.message);
+    }
+  };
+
+  const handleEditArticle = (article) => {
+    setArticleForm({
+      title: article.Title,
+      summary: article.Summary || "",
+      content: article.Content || "",
+      imageUrl: article.ImageUrl || "",
+      isVisible: article.IsVisible !== undefined ? article.IsVisible : true
+    });
+    setEditingId(article.ArticleID);
+  };
+
+  const handleDeleteArticle = async (articleId) => {
+    if (!window.confirm("Bạn chắc chắn muốn xoá bài viết này?")) return;
+    try {
+      await request.delete(`/articles/${articleId}`);
+      alert("Xoá thành công");
+      fetchArticles();
+    } catch (err) {
+      alert("Lỗi: " + err.message);
+    }
+  };
+
+  const handleUpdateArticleFlag = async (articleId, flag, value) => {
+    try {
+      await request.put(`/articles/${articleId}`, { [flag]: value });
+      fetchArticles();
     } catch (err) {
       alert("Lỗi cập nhật: " + err.message);
     }
@@ -247,7 +330,13 @@ const Admin = ({ user }) => {
           className={`tab-btn ${activeTab === "dishes" ? "active" : ""}`}
           onClick={() => setActiveTab("dishes")}
         >
-          📝 Món Ăn
+          📝 Món Ăn - Nước Uống
+        </button>
+        <button
+          className={`tab-btn ${activeTab === "articles" ? "active" : ""}`}
+          onClick={() => setActiveTab("articles")}
+        >
+          📰 Bài Viết
         </button>
         <button
           className={`tab-btn ${activeTab === "orders" ? "active" : ""}`}
@@ -279,11 +368,11 @@ const Admin = ({ user }) => {
         {/* ============ QUẢN LÝ MÓN ĂN ============ */}
         {activeTab === "dishes" && (
           <div className="dish-section">
-            <h2>Quản Lý Món Ăn</h2>
+            <h2>Quản Lý Món Ăn - Nước Uống</h2>
             <form onSubmit={handleAddDish} className="admin-form">
               <input
                 type="text"
-                placeholder="Tên món ăn"
+                placeholder="Tên món ăn / nước uống"
                 value={dishForm.dishName}
                 onChange={(e) => setDishForm({ ...dishForm, dishName: e.target.value })}
               />
@@ -310,9 +399,9 @@ const Admin = ({ user }) => {
                 onChange={(e) => setDishForm({ ...dishForm, category: e.target.value })}
                 className="admin-select"
               >
-                <option value="Phở">Phở</option>
-                <option value="Sides">Đồ Uống & Kèm</option>
-                <option value="Articles">Bài Viết</option>
+                {CATEGORIES.map((cat) => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
               </select>
               <div className="form-checkbox-group">
                 <label>
@@ -329,11 +418,11 @@ const Admin = ({ user }) => {
                     checked={dishForm.featured}
                     onChange={(e) => setDishForm({ ...dishForm, featured: e.target.checked })}
                   />
-                  Làm bestseller, category: "Phở"
+                  Đánh dấu Bestseller (nổi bật)
                 </label>
               </div>
               <button type="submit" className="btn-submit">
-                {editingId ? "Cập Nhật" : "Thêm"} Món Ăn
+                {editingId ? "Cập Nhật" : "Thêm"} Sản Phẩm
               </button>
               {editingId && (
                 <button type="button" onClick={() => {
@@ -346,11 +435,25 @@ const Admin = ({ user }) => {
             </form>
 
             <div className="list-section">
+              <div style={{ padding: '20px', borderBottom: '1px solid #eee', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <label style={{ fontWeight: 'bold' }}>Lọc danh sách:</label>
+                <select 
+                  className="admin-select"
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                  style={{ minWidth: '200px' }}
+                >
+                  <option value="All">Tất cả sản phẩm</option>
+                  {CATEGORIES.map(cat => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  ))}
+                </select>
+              </div>
               {loading ? <p>Đang tải...</p> : (
                 <table className="admin-table">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>STT</th>
                       <th>Hình Ảnh</th>
                       <th>Tên Món Ăn</th>
                       <th>Giá</th>
@@ -362,9 +465,9 @@ const Admin = ({ user }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {dishes.map((dish) => (
+                    {filteredDishes.map((dish, index) => (
                       <tr key={dish.DishID}>
-                        <td>{dish.DishID}</td>
+                        <td>{index + 1}</td>
                         <td className="image-cell">
                           {dish.ImageUrl ? (
                             <img src={dish.ImageUrl} alt={dish.DishName} className="dish-thumbnail" />
@@ -374,7 +477,7 @@ const Admin = ({ user }) => {
                         </td>
                         <td>{dish.DishName}</td>
                         <td>{dish.Price.toLocaleString("vi-VN")} đ</td>
-                        <td><span className="category-badge">{dish.Category || "Phở"}</span></td>
+                        <td><span className={`category-badge cat-${(dish.Category || "pho").toLowerCase().replace(/ /g, '-')}`}>{dish.Category || "Phở"}</span></td>
                         <td>{dish.Description || "-"}</td>
                         <td className="checkbox-cell">
                           <input
@@ -403,6 +506,103 @@ const Admin = ({ user }) => {
                           >
                             🗑️ Xoá
                           </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ============ QUẢN LÝ BÀI VIẾT ============ */}
+        {activeTab === "articles" && (
+          <div className="article-section">
+            <h2>Quản Lý Bài Viết</h2>
+            <form onSubmit={handleAddArticle} className="admin-form">
+              <input
+                type="text"
+                placeholder="Tiêu đề bài viết"
+                value={articleForm.title}
+                onChange={(e) => setArticleForm({ ...articleForm, title: e.target.value })}
+              />
+              <textarea
+                placeholder="Nội dung tóm tắt (hiển thị trên thẻ)"
+                value={articleForm.summary}
+                onChange={(e) => setArticleForm({ ...articleForm, summary: e.target.value })}
+              />
+              <textarea
+                placeholder="Nội dung chi tiết của bài viết..."
+                style={{ minHeight: "150px" }}
+                value={articleForm.content}
+                onChange={(e) => setArticleForm({ ...articleForm, content: e.target.value })}
+              />
+              <input
+                type="url"
+                placeholder="URL Hình Ảnh (vd: https://example.com/image.jpg)"
+                value={articleForm.imageUrl}
+                onChange={(e) => setArticleForm({ ...articleForm, imageUrl: e.target.value })}
+              />
+              <div className="form-checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={articleForm.isVisible}
+                    onChange={(e) => setArticleForm({ ...articleForm, isVisible: e.target.checked })}
+                  />
+                  Hiển thị trên website
+                </label>
+              </div>
+              <button type="submit" className="btn-submit">
+                {editingId ? "Cập Nhật" : "Thêm"} Bài Viết
+              </button>
+              {editingId && (
+                <button type="button" onClick={() => {
+                  setEditingId(null);
+                  setArticleForm({ title: "", summary: "", content: "", imageUrl: "", isVisible: true });
+                }} className="btn-cancel">
+                  Huỷ
+                </button>
+              )}
+            </form>
+
+            <div className="list-section">
+              {loading ? <p>Đang tải...</p> : (
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>STT</th>
+                      <th>Hình Ảnh</th>
+                      <th>Tiêu Đề</th>
+                      <th>Tóm Tắt</th>
+                      <th>Hiển Thị</th>
+                      <th>Thao Tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {articles.map((article, index) => (
+                      <tr key={article.ArticleID}>
+                        <td>{index + 1}</td>
+                        <td className="image-cell">
+                          {article.ImageUrl ? (
+                            <img src={article.ImageUrl} alt={article.Title} className="dish-thumbnail" />
+                          ) : (
+                            <span className="no-image">No Image</span>
+                          )}
+                        </td>
+                        <td>{article.Title}</td>
+                        <td>{article.Summary || "-"}</td>
+                        <td className="checkbox-cell">
+                          <input
+                            type="checkbox"
+                            checked={article.IsVisible !== undefined ? article.IsVisible : true}
+                            onChange={(e) => handleUpdateArticleFlag(article.ArticleID, "isVisible", e.target.checked)}
+                          />
+                        </td>
+                        <td className="action-cell">
+                          <button className="btn-edit" onClick={() => handleEditArticle(article)}>✎ Sửa</button>
+                          <button className="btn-delete" onClick={() => handleDeleteArticle(article.ArticleID)}>🗑️ Xoá</button>
                         </td>
                       </tr>
                     ))}

@@ -4,6 +4,7 @@ import Navbar from "./components/layout/Navbar";
 import Hero from "./components/sections/Hero";
 import Phos from "./components/sections/Phos";
 import Sides from "./components/sections/Sides";
+import Drinks from "./components/sections/Drinks";
 import Articles from "./components/sections/Articles";
 import Contact from "./components/sections/Contact";
 import Footer from "./components/layout/Footer";
@@ -12,6 +13,7 @@ import Register from "./components/sections/Register";
 import Reservation from "./components/sections/Reservation";
 import MyReservations from "./components/sections/MyReservations";
 import Admin from "./components/sections/Admin";
+import ArticleDetail from "./components/pages/ArticleDetail";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -39,6 +41,7 @@ function App() {
         }} />
         <div id="phos"><Phos /></div>
         <div id="sides"><Sides /></div>
+        <div id="drinks"><Drinks /></div>
         <div id="articles"><Articles /></div>
         <div id="contact"><Contact /></div>
       </main>
@@ -63,6 +66,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/article/:id" element={<ArticleDetail />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/my-reservations" element={<MyReservations />} />
         <Route path="/admin" element={user?.role === "admin" ? <Admin user={user} /> : <HomePage />} />

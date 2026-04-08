@@ -6,9 +6,10 @@ export default function Navbar({ onLoginClick, onRegisterClick, user, onLogout }
 
   const navItems = [
     { id: 'home', label: 'Trang Chủ' },
-    { id: 'phos', label: 'Nhà phở' },
-    { id: 'sides', label: 'Nước uống' },
-    { id: 'articles', label: 'Bài Viế' },
+    { id: 'phos', label: 'Nhà Phở' },
+    { id: 'sides', label: 'Món Kèm' },
+    { id: 'drinks', label: 'Thức Uống' },
+    { id: 'articles', label: 'Bài Viết' },
     { id: 'contact', label: 'Liên Hệ' }
   ];
   return (
