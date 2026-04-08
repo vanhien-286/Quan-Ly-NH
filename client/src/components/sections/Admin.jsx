@@ -13,8 +13,8 @@ const Admin = ({ user }) => {
   const [articles, setArticles] = useState([]);
   const [filterCategory, setFilterCategory] = useState("All");
 
-  const filteredDishes = filterCategory === "All" 
-    ? dishes 
+  const filteredDishes = filterCategory === "All"
+    ? dishes
     : dishes.filter(dish => (dish.Category || "Phở") === filterCategory);
 
   // Form states
@@ -32,7 +32,7 @@ const Admin = ({ user }) => {
 
   useEffect(() => {
     if (user?.role !== "admin") return;
-    
+
     if (activeTab === "dishes") fetchDishes();
     else if (activeTab === "articles") fetchArticles();
     else if (activeTab === "tables") fetchTables();
@@ -401,7 +401,7 @@ const Admin = ({ user }) => {
             <div className="list-section">
               <div style={{ padding: '20px', borderBottom: '1px solid #eee', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <label style={{ fontWeight: 'bold' }}>Lọc danh sách:</label>
-                <select 
+                <select
                   className="admin-select"
                   value={filterCategory}
                   onChange={(e) => setFilterCategory(e.target.value)}
@@ -633,7 +633,7 @@ const Admin = ({ user }) => {
                         <td>
                           <span className={`status-badge ${table.Status.toLowerCase()}`}>
                             {table.Status === "Available" ? "Có sẵn" :
-                             table.Status === "Reserved" ? "Đã đặt" : "Đang sử dụng"}
+                              table.Status === "Reserved" ? "Đã đặt" : "Đang sử dụng"}
                           </span>
                         </td>
                         <td>{new Date(table.CreatedAt).toLocaleDateString("vi-VN")}</td>

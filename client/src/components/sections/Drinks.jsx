@@ -14,12 +14,12 @@ export default function Drinks() {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/admin/dishes/public");
-      
+
       if (response.data.data && response.data.data.length > 0) {
         // Filter by category "Nước Uống" (case-insensitive)
-        const drinkDishes = response.data.data.filter(dish => 
-          dish.IsVisible !== false && 
-          dish.Category && 
+        const drinkDishes = response.data.data.filter(dish =>
+          dish.IsVisible !== false &&
+          dish.Category &&
           dish.Category.toLowerCase() === "nước uống"
         );
         console.log("Filtered Drinks:", drinkDishes);
@@ -48,7 +48,7 @@ export default function Drinks() {
   return (
     <section className="py-32 bg-gradient-to-b from-amber-50 to-amber-100 dark:from-amber-950 dark:to-amber-900 overflow-hidden" id="drinks">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        
+
         {/* HEADER */}
         <div className="text-center mb-20">
           <span className="font-sans text-amber-700 uppercase tracking-[0.3em] text-[10px] font-bold mb-4 block">
@@ -67,15 +67,15 @@ export default function Drinks() {
         {drinks.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {drinks.map((drink) => (
-              <div 
-                key={drink.DishID} 
+              <div
+                key={drink.DishID}
                 className="group bg-white dark:bg-amber-900/50 rounded-sm shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-amber-200 dark:border-amber-800"
               >
                 {/* Image */}
                 <div className="h-56 bg-gradient-to-br from-amber-600 to-amber-800 overflow-hidden relative">
                   {drink.ImageUrl ? (
-                    <img 
-                      src={drink.ImageUrl} 
+                    <img
+                      src={drink.ImageUrl}
                       alt={drink.DishName}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />

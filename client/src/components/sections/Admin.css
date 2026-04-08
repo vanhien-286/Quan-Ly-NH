@@ -297,6 +297,7 @@
   font-weight: bold;
   color: #333;
 }
+
 /* ============ IMAGE CELLS ============ */
 .image-cell {
   text-align: center;
@@ -326,9 +327,17 @@
 
 /* Category-specific badge colors - class names use JS .replace(/ /g, '-').toLowerCase() */
 .category-badge[class*="nu-oc-uong"],
-[class*="cat-nu"] { background: #f59e0b; }
-.category-badge[class*="cat-sides"] { background: #8b5cf6; }
-.category-badge[class*="cat-articles"] { background: #3b82f6; }
+[class*="cat-nu"] {
+  background: #f59e0b;
+}
+
+.category-badge[class*="cat-sides"] {
+  background: #8b5cf6;
+}
+
+.category-badge[class*="cat-articles"] {
+  background: #3b82f6;
+}
 
 
 /* ============ CHECKBOX CELLS ============ */
@@ -427,7 +436,7 @@
 }
 
 /* ============ LOADING & EMPTY STATES ============ */
-.list-section > p {
+.list-section>p {
   padding: 30px;
   text-align: center;
   color: #999;
@@ -444,6 +453,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
