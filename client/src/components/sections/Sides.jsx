@@ -16,11 +16,13 @@ export default function Sides() {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/admin/dishes/public");
       if (response.data.data && response.data.data.length > 0) {
-        const sides = response.data.data.filter(dish =>
-          dish.IsVisible !== false &&
-          dish.Category &&
-          dish.Category.toLowerCase() === "sides"
-        );
+        const sides = response.data.data
+          .filter(dish =>
+            dish.IsVisible !== false &&
+            dish.Category &&
+            dish.Category.toLowerCase() === "sides"
+          )
+          .sort((a, b) => (b.Featured ? 1 : 0) - (a.Featured ? 1 : 0));
         setDishes(sides);
       } else {
         setError("Không có dữ liệu sản phẩm");
@@ -56,6 +58,15 @@ export default function Sides() {
                   src={dishes[0]?.ImageUrl || "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=600&fit=crop"}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/40 to-transparent"></div>
+                
+                {/* Featured Badge on Image */}
+                {dishes[0]?.Featured && (
+                  <div className="absolute top-8 left-8 z-20">
+                    <div className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600 text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-[0_10px_25px_rgba(234,179,8,0.5)] flex items-center gap-2">
+                       ⭐ NỔI BẬT
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Modern Card Overlay */}
@@ -102,7 +113,14 @@ export default function Sides() {
                     </div>
                     <div className="flex-1 border-b border-emerald-100 dark:border-emerald-800/40 pb-4">
                       <div className="flex justify-between items-center mb-1">
-                        <h4 className="text-xl font-bold text-emerald-950 dark:text-emerald-50 font-serif mb-0 transition-colors group-hover:text-emerald-700">{dish.DishName}</h4>
+                        <h4 className="text-xl font-bold text-emerald-950 dark:text-emerald-50 font-serif mb-0 transition-colors group-hover:text-emerald-700 flex items-center gap-2">
+                          {dish.DishName}
+                          {dish.Featured && (
+                             <span className="flex items-center gap-1 px-2 py-0.5 bg-yellow-400 text-[8px] text-black font-black uppercase tracking-tighter rounded-full">
+                               ⭐ NỔI BẬT
+                             </span>
+                          )}
+                        </h4>
                         <span className="text-emerald-700 dark:text-emerald-400 font-bold">{dish.Price?.toLocaleString("vi-VN")} đ</span>
                       </div>
                       <p className="text-emerald-600/70 dark:text-emerald-400/50 text-sm italic font-light line-clamp-1">{dish.Description}</p>

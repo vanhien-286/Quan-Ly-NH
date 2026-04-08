@@ -16,13 +16,13 @@ export default function Drinks() {
       const response = await axios.get("http://localhost:5000/api/admin/dishes/public");
 
       if (response.data.data && response.data.data.length > 0) {
-        // Filter by category "Nước Uống" (case-insensitive)
-        const drinkDishes = response.data.data.filter(dish =>
-          dish.IsVisible !== false &&
-          dish.Category &&
-          dish.Category.toLowerCase() === "nước uống"
-        );
-        console.log("Filtered Drinks:", drinkDishes);
+        const drinkDishes = response.data.data
+          .filter(dish =>
+            dish.IsVisible !== false &&
+            dish.Category &&
+            dish.Category.toLowerCase() === "nước uống"
+          )
+          .sort((a, b) => (b.Featured ? 1 : 0) - (a.Featured ? 1 : 0));
         setDrinks(drinkDishes);
       } else {
         setError("Không có dữ liệu sản phẩm");
@@ -54,11 +54,11 @@ export default function Drinks() {
           <span className="font-sans text-amber-700 uppercase tracking-[0.3em] text-[10px] font-bold mb-4 block">
             Thức Uống
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold font-['Noto_Serif'] mb-4 text-amber-950 dark:text-amber-50">
+          <h2 className="text-4xl md:text-5xl font-bold font-serif mb-4 text-amber-950 dark:text-amber-50">
             Đồ Uống Đặc Biệt
           </h2>
           <div className="w-16 h-[2px] bg-amber-500 mx-auto mb-8"></div>
-          <p className="text-amber-700 dark:text-amber-300 max-w-2xl mx-auto font-['Noto_Serif'] italic text-lg">
+          <p className="text-amber-700 dark:text-amber-300 max-w-2xl mx-auto font-serif italic text-lg">
             Các thức uống được chọn lọc kỹ lưỡng để kết hợp hoàn hảo với từng tô phở.
           </p>
         </div>
@@ -87,15 +87,17 @@ export default function Drinks() {
                     </div>
                   )}
                   {drink.Featured && (
-                    <div className="absolute top-3 right-3 bg-rose-500 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                      ⭐ Nổi Bật
+                    <div className="absolute top-4 left-4 z-10 flex flex-col items-center">
+                      <div className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600 text-black px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.1em] shadow-[0_5px_15px_rgba(234,179,8,0.4)] flex items-center gap-1.5">
+                        ⭐ NỔI BẬT
+                      </div>
                     </div>
                   )}
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-['Noto_Serif'] font-bold text-amber-950 dark:text-amber-50 mb-2">
+                  <h3 className="text-xl font-serif font-bold text-amber-950 dark:text-amber-50 mb-2">
                     {drink.DishName}
                   </h3>
                   <p className="text-amber-700 dark:text-amber-300 text-sm leading-relaxed mb-4 line-clamp-2">

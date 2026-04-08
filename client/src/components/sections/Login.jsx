@@ -85,7 +85,7 @@ export default function Login({ isOpen, onClose, onLoginSuccess }) {
               className="w-full bg-zinc-900 py-4 text-white font-label text-xs uppercase tracking-[0.2em] font-bold hover:bg-black transition-all shadow-lg active:scale-95" 
               type="submit"
             >
-              Vào Vòng Tròn
+              Đăng nhập
             </button>
           </div>
         </form>
